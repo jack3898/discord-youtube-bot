@@ -1,0 +1,24 @@
+{
+  "name": "discord-youtube-bot",
+  "version": "1.0.0",
+  "description": "A free and open-source Dicord music bot, powered by Discord.js.",
+  "main": "src/index.js",
+  "scripts": {
+    
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jack3898/discord-youtube-bot.git"
+  },
+  "keywords": [
+    "Discord",
+    "bot",
+    "youtube"
+  ],
+  "author": "Jack Wright",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/jack3898/discord-youtube-bot/issues"
+  },
+  "homepage": "https://github.com/jack3898/discord-youtube-bot#readme"
+}
