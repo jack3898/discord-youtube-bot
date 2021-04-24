@@ -1,9 +1,10 @@
 // You may think me adding globals is being naughty, but I am aware of the risks and believe this is the way to go.
 global.config = require('./../config.json');
-const redisModule = require('redis');
-const redis = redisModule.createClient(config.redis_port);
 global.Discord = require('discord.js');
 global.bot = new Discord.Client();
+
+const redisModule = require('redis');
+const redis = redisModule.createClient(config.redis_port);
 
 const commandProcessor = require('./utils/commandProcessor');
 
@@ -23,5 +24,5 @@ bot.on('message', msg => {
 
 	const command = new commandProcessor(msg);
 
-	console.log(command.args);
+	console.log(command.all);
 });
