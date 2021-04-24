@@ -1,0 +1,4 @@
+{
+	"prefix": "!",
+	"redis_port": 6379
+}
