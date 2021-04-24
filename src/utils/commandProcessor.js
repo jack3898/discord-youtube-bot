@@ -1,3 +1,5 @@
+const Discord = require('discord.js');
+
 class commandProcessor {
 	constructor(msg) {
 		if (!msg instanceof Discord.Message) throw TypeError('Argument 1 is not of instance Message!');

@@ -1,28 +1,35 @@
-// You may think me adding globals is being naughty, but I am aware of the risks and believe this is the way to go.
 global.config = require('./../config.json');
-global.Discord = require('discord.js');
-global.bot = new Discord.Client();
+global.srcPath = __dirname;
 
+// Discord dependencies
+const Discord = require('discord.js');
+const bot = new Discord.Client();
+
+// Redis database & cache
 const redisModule = require('redis');
 const redis = redisModule.createClient(config.redis_port);
 
+// Custom utils
 const commandProcessor = require('./utils/commandProcessor');
+const getFileList = require('./utils/getFileList');
+const getModuleCollection = require('./utils/getModuleCollection');
 
 redis.on('ready', () => {
 	console.log(`Redis server online and listening on port ${config.redis_port}.`);
-	// We only want to run the bot when redis is online.
+	// We only want to run the bot when redis is online and working.
 	bot.login(/* Expects environment variable DISCORD_TOKEN */);
 });
 
 bot.on('ready', () => {
 	console.log(`Bot logged in as ${bot.user.username}!`);
+
+	const commandModules = getFileList('commands');
+	bot.commands = getModuleCollection(commandModules, 'commands');
 });
 
 // On command
 bot.on('message', msg => {
 	if (msg.author.bot || !msg.content.startsWith(config.prefix)) return;
-
 	const command = new commandProcessor(msg);
-
-	console.log(command.all);
+	if (bot.commands.has(command.cmd)) bot.commands.get(command.cmd)(bot, msg, command);
 });
