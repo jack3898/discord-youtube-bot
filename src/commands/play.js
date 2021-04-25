@@ -16,12 +16,25 @@ const command = {
 				return;
 			}
 
+			const queue = new Queue(msg.guild);
+			const state = await queue.getState();
+
+			if (state === 'speaking') {
+				msg.reply('Bot is already playing!');
+				return;
+			}
+
 			const args = Array.from(command.args);
 			const stream = await ytdl(args[0]);
 			const connection = await channel.join();
 			const dispatcher = await connection.play(stream, {type: 'opus'});
 
-			dispatcher.on('finish', () => channel.leave());
+			await queue.setState('speaking');
+
+			dispatcher.on('finish', async () => {
+				channel.leave();
+				await queue.setState('ready');
+			});
 		} catch (error) {
 			console.error(error);
 		}

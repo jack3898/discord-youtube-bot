@@ -4,6 +4,12 @@ const Discord = require('discord.js');
 const redisModule = require('redis');
 const redis = redisModule.createClient(config.redis_port);
 
+/**
+ * This queue system manages a queue from a Redis database.
+ * There are two keys that get added and queried throughout all methods:
+ * 	- guild:<ID> this is the guild the queue relates to.
+ *  - queuestate:<ID> this is the state of the queue. This can mean many things, which can prevent the queue from being modified or prevent the bot from doing things.
+ */
 class Queue {
 	constructor(guild) {
 		this.guild = guild;
@@ -33,6 +39,32 @@ class Queue {
 	get = () => {
 		return new Promise((resolve, reject) => {
 			redis.lrange(this.identifier, 0, -1, (err, data) => {
+				if (err) {
+					reject(err);
+					return;
+				}
+
+				resolve(data);
+			});
+		});
+	};
+
+	setState = state => {
+		return new Promise((resolve, reject) => {
+			redis.set(`queuestate:${this.guild.id}`, state, (err, data) => {
+				if (err) {
+					reject(err);
+					return;
+				}
+
+				resolve(true);
+			});
+		});
+	};
+
+	getState = () => {
+		return new Promise((resolve, reject) => {
+			redis.get(`queuestate:${this.guild.id}`, (err, data) => {
 				if (err) {
 					reject(err);
 					return;
