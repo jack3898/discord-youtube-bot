@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-class commandProcessor {
+class CommandProcessor {
 	constructor(msg) {
 		if (!msg instanceof Discord.Message) throw TypeError('Argument 1 is not of instance Message!');
 
@@ -48,4 +48,4 @@ class commandProcessor {
 	}
 }
 
-module.exports = commandProcessor;
+module.exports = CommandProcessor;
