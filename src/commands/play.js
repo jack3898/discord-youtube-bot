@@ -1,44 +1,30 @@
-const Queue = require('./../utils/Queue');
-const ytdl = require('ytdl-core-discord');
+const Player = require('./../utils/Player');
 
-const command = {
+const cmd = {
 	name: 'play',
 	/**
 	 * Play a YouTube video.
-	 * TODO: Implement queue, add validation for URLs, add YouTube API integration
+	 * TODO: Allow the user to play without using the !addqueue command first, add YouTube API integration
 	 */
 	action: async (bot, msg, command) => {
 		try {
 			const channel = msg.member.voice.channel;
+			const player = new Player(msg.guild);
+			const playing = await player.playing();
+			const connected = await player.join(channel);
 
-			if (!channel) {
-				msg.reply('You are not in a voice channel.');
+			if (!connected || playing) {
+				msg.reply('You are not in a voice channel or I am busy.');
 				return;
 			}
 
-			const queue = new Queue(msg.guild);
-			const state = await queue.getState();
+			while (await player.stream());
 
-			if (state === 'speaking') {
-				msg.reply('Bot is already playing!');
-				return;
-			}
-
-			const args = Array.from(command.args);
-			const stream = await ytdl(args[0]);
-			const connection = await channel.join();
-			const dispatcher = await connection.play(stream, {type: 'opus'});
-
-			await queue.setState('speaking');
-
-			dispatcher.on('finish', async () => {
-				channel.leave();
-				await queue.setState('ready');
-			});
+			player.finish();
 		} catch (error) {
 			console.error(error);
 		}
 	}
 };
 
-module.exports = command;
+module.exports = cmd;

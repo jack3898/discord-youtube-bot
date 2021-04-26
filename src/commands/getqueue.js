@@ -5,7 +5,7 @@ const command = {
 	action: async (bot, msg, command) => {
 		try {
 			const queue = new Queue(msg.guild);
-			const result = await queue.get(msg.content);
+			const result = await queue.get();
 
 			if (result.length === 0) {
 				msg.reply('The queue is empty.');

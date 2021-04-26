@@ -36,15 +36,41 @@ class Queue {
 		});
 	};
 
-	get = () => {
+	get = (index = -1) => {
 		return new Promise((resolve, reject) => {
-			redis.lrange(this.identifier, 0, -1, (err, data) => {
+			redis.lrange(this.identifier, 0, index, (err, data) => {
 				if (err) {
 					reject(err);
 					return;
 				}
 
 				resolve(data);
+			});
+		});
+	};
+
+	length = () => {
+		return new Promise((resolve, reject) => {
+			redis.llen(this.identifier, (err, data) => {
+				if (err) {
+					reject(err);
+					return;
+				}
+
+				resolve(data);
+			});
+		});
+	};
+
+	pop = () => {
+		return new Promise((resolve, reject) => {
+			redis.lpop(`queue:${this.guild.id}`, (err, data) => {
+				if (err) {
+					reject(err);
+					return;
+				}
+
+				resolve(true);
 			});
 		});
 	};

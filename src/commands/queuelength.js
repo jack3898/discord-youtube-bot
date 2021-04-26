@@ -1,13 +1,13 @@
 const Queue = require('./../utils/Queue');
 
 const command = {
-	name: 'addqueue',
+	name: 'queuelength',
 	action: async (bot, msg, command) => {
 		try {
-			const args = Array.from(command.args);
 			const queue = new Queue(msg.guild);
-			await queue.add(args.join(' '));
-			msg.reply(`Added item to the queue!`);
+			const length = await queue.length();
+
+			msg.reply(length);
 		} catch (error) {
 			console.error(error);
 		}

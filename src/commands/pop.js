@@ -1,13 +1,13 @@
 const Queue = require('./../utils/Queue');
 
 const command = {
-	name: 'addqueue',
+	name: 'pop',
 	action: async (bot, msg, command) => {
 		try {
-			const args = Array.from(command.args);
 			const queue = new Queue(msg.guild);
-			await queue.add(args.join(' '));
-			msg.reply(`Added item to the queue!`);
+			await queue.pop();
+
+			msg.reply(`Removed the most recent item from the queue.`);
 		} catch (error) {
 			console.error(error);
 		}
