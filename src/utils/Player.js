@@ -1,3 +1,4 @@
+const Discord = require('discord.js');
 const Queue = require('./Queue');
 const ytdl = require('ytdl-core-discord');
 
@@ -10,7 +11,7 @@ class Player extends Queue {
 
 	/**
 	 * Join a voice channel and create a new connection in this instance.
-	 * @param {Discord.Channel} channel The voice channel instance.
+	 * @param {Discord.VoiceChannel} channel The voice channel instance.
 	 * @returns {Promise<Boolean>}
 	 */
 	join = async channel => {
@@ -82,6 +83,8 @@ class Player extends Queue {
 	finish = async () => {
 		try {
 			this.setState('ready');
+			if (!this.connection) return;
+			this.connection.disconnect();
 			return true;
 		} catch (error) {
 			console.log(error);
