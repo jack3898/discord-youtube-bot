@@ -32,20 +32,14 @@ class Player extends Queue {
 	stream = () => {
 		return new Promise(async (resolve, reject) => {
 			try {
-				const item = await this.get(0);
+				const [item] = await this.get(0);
 
-				if (!item.length) {
+				if (!item) {
 					resolve(false);
 					return;
 				}
 
 				if (!this.connection) throw TypeError('No connection could be found!');
-
-				if (!ytdl.validateURL(item)) {
-					await this.pop();
-					resolve(false);
-					return;
-				}
 
 				this.dispatcher = await this.connection.play(await ytdl(item), {type: 'opus'});
 				this.dispatcher.on('finish', () => {

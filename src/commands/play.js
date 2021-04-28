@@ -21,7 +21,10 @@ const cmd = {
 			const userItem = command.combined;
 
 			// If the user specified an item to add to the queue, add it.
-			if (userItem) await player.add(userItem);
+			if (userItem) {
+				const video = await player.add(userItem);
+				if (video.videoDetails.title) msg.channel.send(__.playing(video.videoDetails.title));
+			}
 
 			// Will keep trying to play the next item in the queue until the queue is empty
 			while (await player.stream());

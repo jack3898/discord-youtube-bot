@@ -9,8 +9,8 @@ const command = {
 		try {
 			const queue = getPlayer(msg.guild, bot);
 
-			await queue.add(command.combined);
-			msg.reply(__.addedtoqueue());
+			const video = await queue.add(command.combined);
+			msg.reply(__.addedtoqueue(video.videoDetails.title));
 		} catch (error) {
 			console.error(error);
 		}

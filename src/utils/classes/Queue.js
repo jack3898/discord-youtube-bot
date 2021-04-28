@@ -1,6 +1,8 @@
 // Redis database & cache
 const redisModule = require('redis');
 const redis = redisModule.createClient(config.redis_port);
+const findYtUrl = require('./../functions/findYtUrl');
+const ytdl = require('ytdl-core-discord');
 
 /**
  * This queue system manages a queue from a Redis database.
@@ -19,14 +21,17 @@ class Queue {
 	 * @param {string} string
 	 */
 	add = string => {
-		return new Promise((resolve, reject) => {
-			redis.rpush(this.identifier, string, (err, data) => {
+		return new Promise(async (resolve, reject) => {
+			const url = ytdl.validateURL(string) ? string : await findYtUrl(string);
+
+			redis.rpush(this.identifier, url, async (err, data) => {
 				if (err) {
 					reject(err);
 					return;
 				}
 				if (data) {
-					resolve(true);
+					const video = await ytdl.getInfo(url);
+					resolve(video);
 					return;
 				}
 				reject(false);

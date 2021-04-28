@@ -2,5 +2,8 @@
 	"prefix": "!",
 	"language": "en",
 	"redis_port": 6379,
-	"youtube_search_max_results": 10
+	"youtube_search_max_results": 10,
+	"success_colour": "#3bf776",
+	"warning_colour": "#f7f43b",
+	"fail_colour": "#f75a3b"
 }

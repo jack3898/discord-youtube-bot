@@ -6,8 +6,14 @@ const command = {
 		try {
 			const queue = getPlayer(msg.guild, bot);
 			const result = await queue.pop();
+			const length = await queue.length();
 
-			if (result) msg.reply(__.popsuccess());
+			if (length === 0) {
+				msg.channel.send(__.emptyqueue());
+				return;
+			}
+
+			if (result) msg.channel.send(__.popsuccess());
 		} catch (error) {
 			console.error(error);
 		}
