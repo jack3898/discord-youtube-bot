@@ -1,5 +1,3 @@
-const Discord = require('discord.js');
-
 // Redis database & cache
 const redisModule = require('redis');
 const redis = redisModule.createClient(config.redis_port);
@@ -36,6 +34,11 @@ class Queue {
 		});
 	};
 
+	/**
+	 * Get a queue items. By default, it gets everything.
+	 * @param {integer} index Where the range ends.
+	 * @returns
+	 */
 	get = (index = -1) => {
 		return new Promise((resolve, reject) => {
 			redis.lrange(this.identifier, 0, index, (err, data) => {
@@ -49,6 +52,10 @@ class Queue {
 		});
 	};
 
+	/**
+	 * Get the length of the queue.
+	 * @returns {Promise<Error|integer>}
+	 */
 	length = () => {
 		return new Promise((resolve, reject) => {
 			redis.llen(this.identifier, (err, data) => {
@@ -62,9 +69,13 @@ class Queue {
 		});
 	};
 
+	/**
+	 * Remove an item from the right side of the queue (newest).
+	 * @returns {Promise<Error|Boolean>}
+	 */
 	pop = () => {
 		return new Promise((resolve, reject) => {
-			redis.lpop(`queue:${this.guild.id}`, (err, data) => {
+			redis.rpop(`queue:${this.guild.id}`, (err, data) => {
 				if (err) {
 					reject(err);
 					return;
@@ -75,6 +86,11 @@ class Queue {
 		});
 	};
 
+	/**
+	 * The state of the bot right now. Is it "playing"? Is it "ready"?
+	 * @param {string} state
+	 * @returns
+	 */
 	setState = state => {
 		return new Promise((resolve, reject) => {
 			redis.set(`queuestate:${this.guild.id}`, state, (err, data) => {
@@ -88,6 +104,10 @@ class Queue {
 		});
 	};
 
+	/**
+	 * Get the state of the bot.
+	 * @returns {string}
+	 */
 	getState = () => {
 		return new Promise((resolve, reject) => {
 			redis.get(`queuestate:${this.guild.id}`, (err, data) => {

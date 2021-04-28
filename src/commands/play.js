@@ -4,7 +4,6 @@ const cmd = {
 	name: 'play',
 	/**
 	 * Play a YouTube video.
-	 * TODO: Allow the user to play without using the !addqueue command first, add YouTube API integration
 	 */
 	action: async (bot, msg, command) => {
 		try {
@@ -19,7 +18,7 @@ const cmd = {
 			}
 
 			// Get the user's item to add to the queue.
-			const userItem = Array.from(command.args).join(' ');
+			const userItem = command.args.join(' ');
 
 			// If the user specified an item to add to the queue, add it.
 			if (userItem) await player.add(userItem);

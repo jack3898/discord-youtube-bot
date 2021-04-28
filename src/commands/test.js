@@ -1,6 +1,6 @@
 const command = {
 	name: 'test',
-	action: (bot, msg, command) => {
+	action: (bot, msg) => {
 		msg.reply('I work!');
 	}
 };

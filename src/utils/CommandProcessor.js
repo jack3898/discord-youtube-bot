@@ -11,11 +11,11 @@ class CommandProcessor {
 
 	/**
 	 * Get all singular arguments as a new Set instance.
-	 * @returns {Set}
+	 * @returns {Array}
 	 */
 	get args() {
 		const [cmd, ...args] = this.textArr.filter(item => !item.startsWith(config.option_prefix));
-		return new Set(args);
+		return args;
 	}
 
 	/**

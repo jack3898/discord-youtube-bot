@@ -2,12 +2,12 @@ const getPlayer = require('./../utils/getPlayer');
 
 const command = {
 	name: 'pop',
-	action: async (bot, msg, command) => {
+	action: async (bot, msg) => {
 		try {
 			const queue = getPlayer(msg.guild, bot);
-			await queue.pop();
+			const result = await queue.pop();
 
-			msg.reply(`Removed the most recent item from the queue.`);
+			if (result) msg.reply(`Removed the most recent item from the queue.`);
 		} catch (error) {
 			console.error(error);
 		}

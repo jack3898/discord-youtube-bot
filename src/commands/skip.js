@@ -5,10 +5,9 @@ const command = {
 	action: async (bot, msg) => {
 		try {
 			const player = getPlayer(msg.guild, bot);
+			const result = player.skip();
 
-			player.skip().then(result => {
-				if (result) msg.reply('Skipped!');
-			});
+			if (result) msg.reply('Skipped!');
 		} catch (error) {
 			console.error(error);
 		}
