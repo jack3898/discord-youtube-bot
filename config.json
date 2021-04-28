@@ -1,5 +1,5 @@
 {
 	"prefix": "!",
-	"option_prefix": "--",
+	"language": "en",
 	"redis_port": 6379
 }

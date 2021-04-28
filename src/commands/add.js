@@ -11,7 +11,7 @@ const command = {
 			const queue = getPlayer(msg.guild, bot);
 
 			await queue.add(args.join(' '));
-			msg.reply(`Added item to the queue!`);
+			msg.reply(__.addedtoqueue());
 		} catch (error) {
 			console.error(error);
 		}

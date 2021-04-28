@@ -1,7 +1,7 @@
 const command = {
 	name: 'test',
 	action: (bot, msg) => {
-		msg.reply('I work!');
+		msg.reply(':D');
 	}
 };
 

@@ -13,7 +13,7 @@ const cmd = {
 			const connected = await player.join(channel);
 
 			if (!connected || playing) {
-				msg.reply('You are not in a voice channel or I am busy.');
+				msg.reply(__.invoiceorbusy());
 				return;
 			}
 

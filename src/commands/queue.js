@@ -8,7 +8,7 @@ const command = {
 			const result = await queue.get();
 
 			if (result.length === 0) {
-				msg.reply('The queue is empty.');
+				msg.reply(__.emptyqueue());
 				return;
 			}
 

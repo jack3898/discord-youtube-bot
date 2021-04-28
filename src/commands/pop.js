@@ -7,7 +7,7 @@ const command = {
 			const queue = getPlayer(msg.guild, bot);
 			const result = await queue.pop();
 
-			if (result) msg.reply(`Removed the most recent item from the queue.`);
+			if (result) msg.reply(__.popsuccess());
 		} catch (error) {
 			console.error(error);
 		}
