@@ -80,7 +80,6 @@ class Player extends Queue {
 	playing = async () => {
 		try {
 			const state = await this.getState();
-			console.log(state);
 			return state === 'speaking' ? true : false;
 		} catch (error) {
 			console.error(error);

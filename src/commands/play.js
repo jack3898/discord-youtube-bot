@@ -18,7 +18,7 @@ const cmd = {
 			}
 
 			// Get the user's item to add to the queue.
-			const userItem = command.args.join(' ');
+			const userItem = command.combined;
 
 			// If the user specified an item to add to the queue, add it.
 			if (userItem) await player.add(userItem);

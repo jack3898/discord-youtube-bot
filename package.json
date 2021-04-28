@@ -23,6 +23,7 @@
 	"homepage": "https://github.com/jack3898/discord-youtube-bot#readme",
 	"dependencies": {
 		"@discordjs/opus": "^0.5.0",
+		"@googleapis/youtube": "^2.0.0",
 		"axios": "^0.21.1",
 		"discord.js": "^12.5.3",
 		"redis": "^3.1.2",

@@ -38,13 +38,18 @@ class CommandProcessor {
 		return cmd;
 	}
 
+	get combined() {
+		return this.args.join(' ');
+	}
+
 	/**
 	 * Does the user's command posess a specific argument?
 	 * @param {string} arg The argument to test for.
 	 * @returns {Boolean}
 	 */
 	hasArg(arg) {
-		return this.args.has(arg);
+		const argMap = new Set(this.args);
+		return argMap.has(arg);
 	}
 }
 

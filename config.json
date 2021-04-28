@@ -1,5 +1,6 @@
 {
 	"prefix": "!",
 	"language": "en",
-	"redis_port": 6379
+	"redis_port": 6379,
+	"youtube_search_max_results": 10
 }

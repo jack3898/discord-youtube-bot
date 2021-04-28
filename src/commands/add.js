@@ -7,10 +7,9 @@ const command = {
 	 */
 	action: async (bot, msg, command) => {
 		try {
-			const args = command.args;
 			const queue = getPlayer(msg.guild, bot);
 
-			await queue.add(args.join(' '));
+			await queue.add(command.combined);
 			msg.reply(__.addedtoqueue());
 		} catch (error) {
 			console.error(error);
