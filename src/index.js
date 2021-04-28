@@ -33,6 +33,7 @@ bot.on('ready', () => {
 
 	const commandModules = getFileList('commands');
 	bot.commands = getModuleCollection(commandModules, 'commands');
+	bot.players = new Discord.Collection(); // This stores one Player instance per guild, which controls music playback. use GetPlayers in /utils to get these instances.
 });
 
 // On command

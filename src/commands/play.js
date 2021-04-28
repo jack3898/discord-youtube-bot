@@ -1,4 +1,4 @@
-const Player = require('./../utils/Player');
+const getPlayer = require('./../utils/getPlayer');
 
 const cmd = {
 	name: 'play',
@@ -9,9 +9,8 @@ const cmd = {
 	action: async (bot, msg, command) => {
 		try {
 			const channel = msg.member.voice.channel;
-			const player = new Player(msg.guild);
+			const player = getPlayer(msg.guild, bot);
 			const playing = await player.playing();
-
 			const connected = await player.join(channel);
 
 			if (!connected || playing) {

@@ -1,11 +1,11 @@
-const Queue = require('./../utils/Queue');
+const getPlayer = require('../utils/getPlayer');
 
 const command = {
-	name: 'addqueue',
+	name: 'add',
 	action: async (bot, msg, command) => {
 		try {
 			const args = Array.from(command.args);
-			const queue = new Queue(msg.guild);
+			const queue = getPlayer(msg.guild, bot);
 			await queue.add(args.join(' '));
 			msg.reply(`Added item to the queue!`);
 		} catch (error) {

@@ -61,6 +61,14 @@ class Player extends Queue {
 	};
 
 	/**
+	 * Skip the current playing song
+	 * TODO: Implement.
+	 */
+	skip = async () => {
+		return;
+	};
+
+	/**
 	 * Is the bot busy?
 	 * @returns {Promise<Boolean>}
 	 */

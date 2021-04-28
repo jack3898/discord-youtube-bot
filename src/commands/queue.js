@@ -1,10 +1,10 @@
-const Queue = require('./../utils/Queue');
+const getPlayer = require('../utils/getPlayer');
 
 const command = {
-	name: 'getqueue',
+	name: 'queue',
 	action: async (bot, msg, command) => {
 		try {
-			const queue = new Queue(msg.guild);
+			const queue = getPlayer(msg.guild, bot);
 			const result = await queue.get();
 
 			if (result.length === 0) {
