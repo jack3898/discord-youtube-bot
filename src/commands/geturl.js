@@ -1,4 +1,4 @@
-const findYtUrl = require('./../utils/findYtUrl');
+const findYtUrl = require('../utils/functions/findYtUrl');
 
 const command = {
 	name: 'geturl',

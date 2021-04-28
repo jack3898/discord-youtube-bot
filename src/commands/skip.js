@@ -1,4 +1,4 @@
-const getPlayer = require('./../utils/getPlayer');
+const getPlayer = require('../utils/functions/getPlayer');
 
 const command = {
 	name: 'skip',

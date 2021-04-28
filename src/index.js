@@ -10,9 +10,9 @@ const redisModule = require('redis');
 const redis = redisModule.createClient(config.redis_port);
 
 // Custom utils
-const CommandProcessor = require('./utils/CommandProcessor');
-const getFileList = require('./utils/getFileList');
-const getModuleCollection = require('./utils/getModuleCollection');
+const CommandProcessor = require('./utils/classes/CommandProcessor');
+const getFileList = require('./utils/functions/getFileList');
+const getModuleCollection = require('./utils/functions/getModuleCollection');
 
 // Language
 global.__ = require(`./lang/${config.language}`);

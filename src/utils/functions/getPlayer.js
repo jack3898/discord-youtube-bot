@@ -1,5 +1,5 @@
 const {Guild} = require('discord.js');
-const Player = require('./Player');
+const Player = require('../classes/Player');
 
 /**
  * Get a player for a guild. A player is an instance of Player() and contains info about currently running music.
