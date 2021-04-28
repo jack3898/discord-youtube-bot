@@ -62,10 +62,15 @@ class Player extends Queue {
 
 	/**
 	 * Skip the current playing song
-	 * TODO: Implement.
 	 */
 	skip = async () => {
-		return;
+		try {
+			if (this.dispatcher) this.dispatcher.emit('finish');
+			return true;
+		} catch (error) {
+			console.error(error);
+			return false;
+		}
 	};
 
 	/**
