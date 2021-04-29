@@ -2,6 +2,7 @@
 const redisModule = require('redis');
 const redis = redisModule.createClient(config.redis_port);
 const findYtUrl = require('./../functions/findYtUrl');
+const getVideoDetails = require('./../functions/getVideoDetails');
 const ytdl = require('ytdl-core-discord');
 
 /**
@@ -30,7 +31,7 @@ class Queue {
 					return;
 				}
 				if (data) {
-					const video = await ytdl.getInfo(url);
+					const video = await getVideoDetails(url);
 					resolve(video);
 					return;
 				}
@@ -80,7 +81,7 @@ class Queue {
 	 */
 	pop = () => {
 		return new Promise((resolve, reject) => {
-			redis.rpop(`queue:${this.guild.id}`, (err, data) => {
+			redis.rpop(`queue:${this.guild.id}`, err => {
 				if (err) {
 					reject(err);
 					return;
@@ -98,7 +99,7 @@ class Queue {
 	 */
 	setState = state => {
 		return new Promise((resolve, reject) => {
-			redis.set(`queuestate:${this.guild.id}`, state, (err, data) => {
+			redis.set(`queuestate:${this.guild.id}`, state, err => {
 				if (err) {
 					reject(err);
 					return;

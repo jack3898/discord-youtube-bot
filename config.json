@@ -5,5 +5,6 @@
 	"youtube_search_max_results": 10,
 	"success_colour": "#3bf776",
 	"warning_colour": "#f7f43b",
-	"fail_colour": "#f75a3b"
+	"fail_colour": "#f75a3b",
+	"cache_expiry_in_seconds": 86400
 }
