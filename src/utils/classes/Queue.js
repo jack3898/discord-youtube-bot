@@ -8,13 +8,13 @@ const ytdl = require('ytdl-core-discord');
 /**
  * This queue system manages a queue from a Redis database.
  * There are two keys that get added and queried throughout all methods:
- * 	- guild:<ID> this is the guild the queue relates to.
- *  - queuestate:<ID> this is the state of the queue. This can mean many things, which can prevent the queue from being modified or prevent the bot from doing things.
+ * - guild:<ID> this is the guild the queue relates to.
+ * - queuestate:<ID> this is the state of the queue. This can mean many things, which can prevent the queue from being modified or prevent the bot from doing things.
  */
 class Queue {
 	constructor(guild) {
 		this.guild = guild;
-		this.identifier = `queue:${this.guild.id}`;
+		this.identifier = `${config.redis_namespace}:queue:${this.guild.id}`;
 	}
 
 	/**
@@ -81,7 +81,7 @@ class Queue {
 	 */
 	pop = () => {
 		return new Promise((resolve, reject) => {
-			redis.rpop(`queue:${this.guild.id}`, err => {
+			redis.rpop(`${config.redis_namespace}:queue:${this.guild.id}`, err => {
 				if (err) {
 					reject(err);
 					return;
@@ -99,7 +99,7 @@ class Queue {
 	 */
 	setState = state => {
 		return new Promise((resolve, reject) => {
-			redis.set(`queuestate:${this.guild.id}`, state, err => {
+			redis.set(`${config.redis_namespace}:queuestate:${this.guild.id}`, state, err => {
 				if (err) {
 					reject(err);
 					return;
@@ -116,7 +116,7 @@ class Queue {
 	 */
 	getState = () => {
 		return new Promise((resolve, reject) => {
-			redis.get(`queuestate:${this.guild.id}`, (err, data) => {
+			redis.get(`${config.redis_namespace}:queuestate:${this.guild.id}`, (err, data) => {
 				if (err) {
 					reject(err);
 					return;

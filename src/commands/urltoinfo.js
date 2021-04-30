@@ -3,9 +3,7 @@ const ytdl = require('ytdl-core-discord');
 
 const command = {
 	name: 'urltoinfo',
-	/**
-	 * TODO: Add validation!
-	 */
+
 	action: async (bot, msg, command) => {
 		try {
 			if (!ytdl.validateURL(command.args[0])) {
