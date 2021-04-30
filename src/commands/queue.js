@@ -8,14 +8,15 @@ const command = {
 			const result = await queue.get();
 
 			if (result.length === 0) {
-				msg.reply(__.emptyqueue());
+				msg.channel.send(__.emptyqueue());
 				return;
 			}
 
 			const reply = result.map((queueItem, index) => `${index + 1}) ${queueItem}`).join('\n');
-			msg.reply(reply);
+			msg.channel.send(reply);
 		} catch (error) {
 			console.error(error);
+			msg.channel.send(__.commanderror());
 		}
 	}
 };

@@ -18,6 +18,7 @@ const command = {
 			msg.channel.send(`Video title: \`${resp.videoDetails.title}\``);
 		} catch (error) {
 			console.error(error);
+			msg.channel.send(__.commanderror());
 		}
 	}
 };

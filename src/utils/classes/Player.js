@@ -20,7 +20,7 @@ class Player extends Queue {
 			await this.setState('speaking');
 			return true;
 		} catch (error) {
-			return false;
+			return Promise.reject(false);
 		}
 	};
 
@@ -63,7 +63,7 @@ class Player extends Queue {
 			return true;
 		} catch (error) {
 			console.error(error);
-			return false;
+			return Promise.reject(false);
 		}
 	};
 
@@ -77,7 +77,7 @@ class Player extends Queue {
 			return state === 'speaking' ? true : false;
 		} catch (error) {
 			console.error(error);
-			return false;
+			return Promise.reject(false);
 		}
 	};
 
@@ -94,7 +94,7 @@ class Player extends Queue {
 			return true;
 		} catch (error) {
 			console.log(error);
-			return false;
+			return Promise.reject(false);
 		}
 	};
 }

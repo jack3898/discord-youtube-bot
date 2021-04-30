@@ -2,9 +2,6 @@ const getPlayer = require('../utils/functions/getPlayer');
 
 const cmd = {
 	name: 'play',
-	/**
-	 * Play a YouTube video.
-	 */
 	action: async (bot, msg, command) => {
 		try {
 			const channel = msg.member.voice.channel;
@@ -13,7 +10,7 @@ const cmd = {
 			const connected = await player.join(channel);
 
 			if (!connected || playing) {
-				msg.reply(__.invoiceorbusy());
+				msg.channel.send(__.invoiceorbusy());
 				return;
 			}
 
@@ -32,6 +29,7 @@ const cmd = {
 			player.finish();
 		} catch (error) {
 			console.error(error);
+			msg.channel.send(__.commanderror());
 		}
 	}
 };

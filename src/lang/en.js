@@ -6,6 +6,7 @@ const language = {
 	botactive: botname => `Bot logged in as ${botname}!`,
 	redisactive: redisport => `Redis server online and listening on port ${redisport}`,
 	rediserror: redisport => `Unable to connect to Redis on port ${redisport}. Is it installed and running as a service?`,
+	commanderror: () => `There was a problem executing that command.`,
 	playing: videotitle => `Playing \`${videotitle}\`!`,
 	addedtoqueue: videotitle => `Added \`${videotitle}\` to the queue!`,
 	invoiceorbusy: () => `You are not in a voice channel or I am busy.`,

@@ -10,6 +10,7 @@ const command = {
 			if (length) msg.channel.send(result);
 		} catch (error) {
 			console.error(error);
+			msg.channel.send(__.commanderror());
 		}
 	}
 };

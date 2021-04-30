@@ -2,9 +2,6 @@ const getPlayer = require('../utils/functions/getPlayer');
 
 const command = {
 	name: 'add',
-	/**
-	 * TODO: Add validation!
-	 */
 	action: async (bot, msg, command) => {
 		try {
 			const queue = getPlayer(msg.guild, bot);
@@ -13,6 +10,7 @@ const command = {
 			msg.channel.send(__.addedtoqueue(video.videoDetails.title));
 		} catch (error) {
 			console.error(error);
+			msg.channel.send(__.commanderror());
 		}
 	}
 };

@@ -8,6 +8,7 @@ const command = {
 			player.finish();
 		} catch (error) {
 			console.error(error);
+			msg.channel.send(__.commanderror());
 		}
 	}
 };

@@ -10,6 +10,7 @@ const command = {
 			if (result) msg.channel.send(__.skipped());
 		} catch (error) {
 			console.error(error);
+			msg.channel.send(__.commanderror());
 		}
 	}
 };

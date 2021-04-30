@@ -16,6 +16,7 @@ const command = {
 			if (result) msg.channel.send(__.popsuccess());
 		} catch (error) {
 			console.error(error);
+			msg.channel.send(__.commanderror());
 		}
 	}
 };

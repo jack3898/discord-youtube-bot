@@ -20,6 +20,7 @@ class Queue {
 	/**
 	 * Add a string to the queue.
 	 * @param {string} string
+	 * @returns {Promise<Object>} video details
 	 */
 	add = string => {
 		return new Promise(async (resolve, reject) => {
@@ -42,7 +43,7 @@ class Queue {
 
 	/**
 	 * Get a queue items. By default, it gets everything.
-	 * @param {integer} index Where the range ends.
+	 * @param {Promise<integer>} index Where the range ends.
 	 * @returns
 	 */
 	get = (index = -1) => {
@@ -94,7 +95,7 @@ class Queue {
 
 	/**
 	 * The state of the bot right now. Is it "playing"? Is it "ready"?
-	 * @param {string} state
+	 * @param {Promise<string>} state
 	 * @returns
 	 */
 	setState = state => {
@@ -112,7 +113,7 @@ class Queue {
 
 	/**
 	 * Get the state of the bot.
-	 * @returns {string}
+	 * @returns {Promise<string>}
 	 */
 	getState = () => {
 		return new Promise((resolve, reject) => {
