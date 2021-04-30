@@ -23,7 +23,6 @@ class Player extends Queue {
 	join = async channel => {
 		try {
 			this.connection = await channel.join(channel);
-			await this.setState('speaking');
 			return true;
 		} catch (error) {
 			return Promise.reject(false);
@@ -82,15 +81,7 @@ class Player extends Queue {
 	 * Is the bot busy?
 	 * @returns {Promise<Boolean>}
 	 */
-	playing = async () => {
-		try {
-			const state = await this.getState();
-			return state === 'speaking' ? true : false;
-		} catch (error) {
-			console.error(error);
-			return Promise.reject(false);
-		}
-	};
+	playing = () => (this.connection?.speaking.bitfield ? true : false);
 
 	/**
 	 * Change the volume of the bot's voice communication.
@@ -146,7 +137,6 @@ class Player extends Queue {
 	 */
 	finish = async () => {
 		try {
-			this.setState('ready');
 			this.connection?.disconnect();
 			this.bitstream?.destroy();
 			return true;

@@ -121,41 +121,6 @@ class Queue {
 			});
 		});
 	};
-
-	/**
-	 * The state of the bot right now. Is it "playing"? Is it "ready"?
-	 * @param {Promise<string>} state
-	 * @returns
-	 */
-	setState = state => {
-		return new Promise((resolve, reject) => {
-			redis.set(`${config.redis_namespace}:queuestate:${this.guild.id}`, state, err => {
-				if (err) {
-					reject(err);
-					return;
-				}
-
-				resolve(true);
-			});
-		});
-	};
-
-	/**
-	 * Get the state of the bot.
-	 * @returns {Promise<string>}
-	 */
-	getState = () => {
-		return new Promise((resolve, reject) => {
-			redis.get(`${config.redis_namespace}:queuestate:${this.guild.id}`, (err, data) => {
-				if (err) {
-					reject(err);
-					return;
-				}
-
-				resolve(data);
-			});
-		});
-	};
 }
 
 module.exports = Queue;

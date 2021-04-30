@@ -6,7 +6,7 @@ const cmd = {
 		try {
 			const channel = msg.member.voice.channel;
 			const player = getPlayer(msg.guild, bot);
-			const playing = await player.playing();
+			const playing = player.playing();
 			const connected = await player.join(channel);
 
 			if (!connected || playing) {
