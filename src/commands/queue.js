@@ -1,4 +1,5 @@
-const getPlayer = require('../utils/functions/getPlayer');
+const getPlayer = require('./../utils/functions/getPlayer');
+const getVideoDetails = require('./../utils/functions/getVideoDetails');
 
 const command = {
 	name: 'queue',
@@ -12,7 +13,20 @@ const command = {
 				return;
 			}
 
-			const reply = result.map((queueItem, index) => `${index + 1}) ${queueItem}`).join('\n');
+			// Gather all video details. As it is async, the array will be a list of promises.
+			const videos = result.map(async url => {
+				const details = await getVideoDetails(url);
+
+				if (details) return details.videoDetails.title;
+				return url;
+			});
+
+			// Wait for all promises to fulfill
+			const resolvedVideos = await Promise.all(videos);
+
+			// Construct the list!
+			const reply = resolvedVideos.map(__.queueitem).join('\n');
+
 			msg.channel.send(reply);
 		} catch (error) {
 			console.error(error);

@@ -76,13 +76,20 @@ class Queue {
 		});
 	};
 
+	clear = () => {
+		return new Promise((resolve, reject) => {
+			if (redis.del(this.identifier)) resolve(true);
+			else reject(false);
+		});
+	};
+
 	/**
 	 * Remove an item from the right side of the queue (newest).
 	 * @returns {Promise<Error|Boolean>}
 	 */
 	pop = () => {
 		return new Promise((resolve, reject) => {
-			redis.rpop(`${config.redis_namespace}:queue:${this.guild.id}`, err => {
+			redis.rpop(this.identifier, err => {
 				if (err) {
 					reject(err);
 					return;
