@@ -7,7 +7,7 @@ const command = {
 			const player = getPlayer(msg.guild, bot);
 			const result = player.skip();
 
-			if (result) msg.reply(__.skipped());
+			if (result) msg.channel.send(__.skipped());
 		} catch (error) {
 			console.error(error);
 		}

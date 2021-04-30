@@ -7,7 +7,7 @@ const command = {
 	action: async (bot, msg, command) => {
 		try {
 			if (!ytdl.validateURL(command.args[0])) {
-				msg.reply('Invalid URL!');
+				msg.channel.send('Invalid URL!');
 				return false;
 			}
 
@@ -15,7 +15,7 @@ const command = {
 
 			const resp = await getVideoDetails(url);
 
-			msg.reply(`Video title: \`${resp.videoDetails.title}\``);
+			msg.channel.send(`Video title: \`${resp.videoDetails.title}\``);
 		} catch (error) {
 			console.error(error);
 		}

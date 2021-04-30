@@ -7,7 +7,7 @@ const command = {
 			const queue = getPlayer(msg.guild, bot);
 			const length = await queue.length();
 
-			if (length) msg.reply(result);
+			if (length) msg.channel.send(result);
 		} catch (error) {
 			console.error(error);
 		}

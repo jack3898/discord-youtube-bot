@@ -10,7 +10,7 @@ const command = {
 			const queue = getPlayer(msg.guild, bot);
 
 			const video = await queue.add(command.combined);
-			msg.reply(__.addedtoqueue(video.videoDetails.title));
+			msg.channel.send(__.addedtoqueue(video.videoDetails.title));
 		} catch (error) {
 			console.error(error);
 		}

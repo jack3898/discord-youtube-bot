@@ -6,7 +6,7 @@ const command = {
 		try {
 			const urls = await findYtUrl(command.combined);
 
-			msg.reply(urls.join('\n'));
+			msg.channel.send(urls.join('\n'));
 		} catch (error) {
 			console.error(error);
 		}
