@@ -28,7 +28,10 @@ const cmd = {
 
 			player.finish();
 		} catch (error) {
+			const player = getPlayer(msg.guild, bot);
+
 			console.error(error);
+			player.finish();
 			msg.channel.send(__.commanderror());
 		}
 	}

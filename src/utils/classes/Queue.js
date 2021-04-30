@@ -14,7 +14,7 @@ const ytdl = require('ytdl-core-discord');
 class Queue {
 	constructor(guild) {
 		this.guild = guild;
-		this.identifier = `${config.redis_namespace}:queue:${this.guild.id}`;
+		this.queueIdentifier = `${config.redis_namespace}:queue:${this.guild.id}`;
 	}
 
 	/**
@@ -24,20 +24,25 @@ class Queue {
 	 */
 	add = string => {
 		return new Promise(async (resolve, reject) => {
-			const url = ytdl.validateURL(string) ? string : await findYtUrl(string);
+			try {
+				const url = ytdl.validateURL(string) ? string : await findYtUrl(string);
 
-			redis.rpush(this.identifier, url, async (err, data) => {
-				if (err) {
-					reject(err);
-					return;
-				}
-				if (data) {
-					const video = await getVideoDetails(url);
-					resolve(video);
-					return;
-				}
+				redis.rpush(this.queueIdentifier, url, async (err, data) => {
+					if (err) {
+						reject(err);
+						return;
+					}
+					if (data) {
+						const video = await getVideoDetails(url);
+						resolve(video);
+						return;
+					}
+					reject(false);
+				});
+			} catch (error) {
+				console.error(error);
 				reject(false);
-			});
+			}
 		});
 	};
 
@@ -48,7 +53,7 @@ class Queue {
 	 */
 	get = (index = -1) => {
 		return new Promise((resolve, reject) => {
-			redis.lrange(this.identifier, 0, index, (err, data) => {
+			redis.lrange(this.queueIdentifier, 0, index, (err, data) => {
 				if (err) {
 					reject(err);
 					return;
@@ -65,7 +70,7 @@ class Queue {
 	 */
 	length = () => {
 		return new Promise((resolve, reject) => {
-			redis.llen(this.identifier, (err, data) => {
+			redis.llen(this.queueIdentifier, (err, data) => {
 				if (err) {
 					reject(err);
 					return;
@@ -78,7 +83,7 @@ class Queue {
 
 	clear = () => {
 		return new Promise((resolve, reject) => {
-			if (redis.del(this.identifier)) resolve(true);
+			if (redis.del(this.queueIdentifier)) resolve(true);
 			else reject(false);
 		});
 	};
@@ -89,7 +94,24 @@ class Queue {
 	 */
 	pop = () => {
 		return new Promise((resolve, reject) => {
-			redis.rpop(this.identifier, err => {
+			redis.rpop(this.queueIdentifier, err => {
+				if (err) {
+					reject(err);
+					return;
+				}
+
+				resolve(true);
+			});
+		});
+	};
+
+	/**
+	 * Remove an item from the left side of the queue (oldest, current playing).
+	 * @returns {Promise<Error|Boolean>}
+	 */
+	shift = () => {
+		return new Promise((resolve, reject) => {
+			redis.lpop(this.queueIdentifier, err => {
 				if (err) {
 					reject(err);
 					return;
