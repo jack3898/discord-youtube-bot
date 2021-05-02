@@ -27,13 +27,14 @@ const language = {
 	geturl: prefix => `Use a search term to get the first result URL of a YouTube video with \`${prefix}geturl <search>\`.`,
 	help: prefix => `You just used this command! You may go to the next page with \`${prefix}help <number>\``,
 	play: prefix => `Play a video straight away with \`${prefix}play <URL|search>\`. Do keep in mind that if the bot is already playing something, this will not work. Instead, Add to the queue with \`${prefix}add <url|search>\``,
+	playlist: prefix => `Import a playlist and convert it into a queue with \`${prefix}playlist <playlist URL>\`. Will append to an existing queue if there is one. Use \`${prefix}clear\` to clear the queue first.`,
 	pop: prefix => `This will remove the newest item from the queue with \`${prefix}pop\`.`,
 	queue: prefix => `Get the current queue with \`${prefix}queue\`.`,
 	queuelength: prefix => `Get the length of the queue with \`${prefix}queuelength\`.`,
 	skip: prefix => `Skip the current playing song with \`${prefix}skip\`.`,
 	stop: prefix => `Stop the bot from playing and leave the channel with \`${prefix}stop\`.`,
 	test: prefix => `Is the bot working? Test it!`,
-	urltoinfo: prefix => `Get video information from a given URL with \`${prefix}urltiinfo\`.`,
+	urltoinfo: prefix => `Get video information from a given URL with \`${prefix}urltoinfo\`.`,
 	volume: prefix => `Change the playing volume of the bot with \`${prefix}volume <percentage>\`.`
 };
 

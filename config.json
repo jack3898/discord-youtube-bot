@@ -5,6 +5,7 @@
 	"redis_namespace": "ytbot",
 	"redis_flush_on_start": true,
 	"youtube_search_max_results": 10,
+	"youtube_playlist_max_results": 50,
 	"default_volume_percent": 70,
 	"success_colour": "#3bf776",
 	"warning_colour": "#f7f43b",

@@ -26,8 +26,7 @@ async function findYtUrl(search, manyResults = false) {
 
 			await yt.search.list(params, (err, data) => {
 				if (err) {
-					console.error(err);
-					resolve([]);
+					reject(error);
 					return;
 				}
 
