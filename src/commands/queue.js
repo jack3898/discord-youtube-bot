@@ -3,6 +3,7 @@ const getVideoDetails = require('./../utils/functions/getVideoDetails');
 
 module.exports = {
 	name: 'queue',
+	description: __.queue(config.prefix),
 	action: async (bot, msg) => {
 		try {
 			const queue = getPlayer(msg.guild, bot);

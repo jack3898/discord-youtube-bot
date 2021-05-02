@@ -2,6 +2,7 @@ const getPlayer = require('../utils/functions/getPlayer');
 
 module.exports = {
 	name: 'play',
+	description: __.play(config.prefix),
 	action: async (bot, msg, command) => {
 		try {
 			const channel = msg.member.voice.channel;

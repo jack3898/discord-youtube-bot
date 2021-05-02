@@ -2,6 +2,7 @@ const getPlayer = require('../utils/functions/getPlayer');
 
 module.exports = {
 	name: 'skip',
+	description: __.skip(config.prefix),
 	action: async (bot, msg) => {
 		try {
 			const player = getPlayer(msg.guild, bot);

@@ -10,7 +10,7 @@ function getModuleCollection(filenames, directory) {
 	if (filenames.length) {
 		const moduleList = filenames.map(filename => {
 			const executable = require(`${srcPath}/${directory}/${filename}`);
-			if (executable.name && executable.action) return [executable.name, executable.action];
+			if (executable.name && executable.action) return [executable.name, {action: executable.action, description: executable?.description}];
 		});
 		return new Discord.Collection(moduleList);
 	}

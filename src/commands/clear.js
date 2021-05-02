@@ -2,6 +2,7 @@ const getPlayer = require('../utils/functions/getPlayer');
 
 module.exports = {
 	name: 'clear',
+	description: __.clear(config.prefix),
 	action: async (bot, msg, command) => {
 		try {
 			const queue = getPlayer(msg.guild, bot);

@@ -2,6 +2,7 @@ const getPlayer = require('../utils/functions/getPlayer');
 
 module.exports = {
 	name: 'queuelength',
+	description: __.queuelength(config.prefix),
 	action: async (bot, msg) => {
 		try {
 			const queue = getPlayer(msg.guild, bot);

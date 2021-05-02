@@ -3,7 +3,7 @@ const ytdl = require('ytdl-core-discord');
 
 module.exports = {
 	name: 'urltoinfo',
-
+	description: __.urltoinfo(config.prefix),
 	action: async (bot, msg, command) => {
 		try {
 			if (!ytdl.validateURL(command.args[0])) {

@@ -2,6 +2,7 @@ const getPlayer = require('../utils/functions/getPlayer');
 
 module.exports = {
 	name: 'volume',
+	description: __.volume(config.prefix),
 	action: async (bot, msg, command) => {
 		try {
 			const player = getPlayer(msg.guild, bot);
