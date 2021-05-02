@@ -1,5 +1,6 @@
 const getFileList = require('./../utils/functions/getFileList');
 const getModuleCollection = require('./../utils/functions/getModuleCollection');
+const paginate = require('./../utils/functions/paginate');
 const {MessageEmbed} = require('discord.js');
 
 module.exports = {
@@ -10,30 +11,23 @@ module.exports = {
 			const commandModules = getFileList('commands');
 			const collection = Array.from(getModuleCollection(commandModules, 'commands'));
 
-			const page = command.args[0] ? parseInt(command.args[0]) - 1 : 0; // Arrays start from index 0, so this will stop users from accessing page 1 with 0
+			const page = command.args[0] || 1; // Arrays start from index 0, so this will stop users from accessing page 1 with 0
 			const perPage = 10;
-			const pageCount = Math.ceil(perPage / collection.length) + 1;
 
-			const startIndex = page * perPage;
-			const endIndex = page * perPage + perPage;
+			const paginatedArr = paginate(collection, page, perPage);
+			const pageCount = paginatedArr.pageCount;
+			const embedFields = paginatedArr.page.map(item => ({name: `${config.prefix}${item[0]}`, value: item[1].description}));
 
-			if (Number.isNaN(page) || page >= pageCount || page < 0) {
-				msg.channel.send(__.invalidpage());
-				return;
-			}
-
-			const embedFields = collection.slice(startIndex, endIndex).map(item => ({name: `${config.prefix}${item[0]}`, value: item[1].description}));
-
-			const message = new MessageEmbed()
-				.setColor(config.success_colour)
-				.setTitle(`Help - page ${page + 1} / ${pageCount}`)
-				.setDescription(`Get help with this bot.`)
-				.addFields(...embedFields);
-
-			if (!message || !message.length) {
+			if (!paginatedArr.page.length) {
 				msg.channel.send(__.emptypage());
 				return;
 			}
+
+			const message = new MessageEmbed()
+				.setColor(config.success_colour)
+				.setTitle(__.helptitle(page, pageCount))
+				.setDescription(__.helpdesc(paginatedArr.page.length))
+				.addFields(...embedFields);
 
 			msg.channel.send(message);
 		} catch (error) {

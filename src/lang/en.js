@@ -22,6 +22,8 @@ const language = {
 	emptypage: () => `This page is empty.`,
 
 	// Help command help messages
+	helptitle: (page, pageCount) => `Help - page ${page} / ${pageCount}`,
+	helpdesc: pageLength => `Get help with this bot. Showing ${pageLength} item(s).`,
 	add: prefix => `Add an item to the queue with \`${prefix}add <url|search>\`.`,
 	clear: prefix => `Clear the entire queue with \`${prefix}clear\`. Poof. Gone.`,
 	geturl: prefix => `Use a search term to get the first result URL of a YouTube video with \`${prefix}geturl <search>\`.`,
