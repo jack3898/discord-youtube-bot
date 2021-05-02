@@ -19,7 +19,8 @@ function getPlaylist(url, maxResults = config.youtube_playlist_max_results) {
 			const parsedUrl = new URL(url);
 			const {list} = Object.fromEntries(parsedUrl.searchParams);
 
-			if (parsedUrl.hostname !== 'youtube.com' || !list) {
+			if (!(parsedUrl.hostname === 'youtube.com' || parsedUrl.hostname === 'www.youtube.com') || !list) {
+				console.log(parsedUrl.hostname, list);
 				reject('Invalid url provided');
 				return;
 			}

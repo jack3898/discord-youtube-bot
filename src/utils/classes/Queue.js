@@ -51,15 +51,36 @@ class Queue {
 	 * @param {Promise<integer>} index Where the range ends.
 	 * @returns
 	 */
-	get = (index = -1) => {
+	get = (page, pageSize = config.paginate_max_results) => {
 		return new Promise((resolve, reject) => {
-			redis.lrange(this.queueIdentifier, 0, index, (err, data) => {
+			const validatedPage = parseInt(page) - 1;
+			const validatedPageSize = parseInt(pageSize);
+
+			if (Number.isNaN(validatedPage) || Number.isNaN(validatedPageSize)) {
+				reject(`The page and or page size provided are not a valid number. Start = ${validatedStart} and finish = ${validatedFinish}.`);
+				return;
+			}
+
+			const startIndex = validatedPage * validatedPageSize;
+			const endIndex = validatedPage * validatedPageSize + validatedPageSize - 1;
+
+			redis.lrange(this.queueIdentifier, startIndex, endIndex, async (err, data) => {
 				if (err) {
 					reject(err);
 					return;
 				}
 
-				resolve(data);
+				const length = await this.length();
+				const pages = Math.ceil(length / validatedPageSize);
+
+				resolve({
+					queue: data,
+					pageSize: data.length,
+					startsFrom: startIndex,
+					endsFrom: endIndex,
+					queueLength: length,
+					pages
+				});
 			});
 		});
 	};

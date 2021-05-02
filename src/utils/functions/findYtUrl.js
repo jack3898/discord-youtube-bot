@@ -15,7 +15,7 @@ async function findYtUrl(search, manyResults = false) {
 			});
 
 			// How many results? By default, just use one. But if manyResults is truthy, use the value in the config.
-			const maxResults = manyResults ? config.youtube_search_max_results : 1;
+			const maxResults = manyResults ? config.paginate_max_results : 1;
 
 			const params = {
 				part: 'id',

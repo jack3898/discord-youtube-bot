@@ -37,7 +37,8 @@ class Player extends Queue {
 	stream = () => {
 		return new Promise(async (resolve, reject) => {
 			try {
-				const [item] = await this.get(0);
+				const {queue} = await this.get(1, 1);
+				const item = queue[0];
 
 				if (!item) {
 					resolve(false);
