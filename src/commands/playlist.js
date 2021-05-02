@@ -12,7 +12,7 @@ module.exports = {
 
 			await Promise.all(addedUrls);
 
-			msg.channel.send('All videos have been added to the queue!');
+			msg.channel.send(__.playlistinqueue());
 		} catch (error) {
 			console.error(error);
 			msg.channel.send(__.commanderror());
