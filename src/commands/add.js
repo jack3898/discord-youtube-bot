@@ -1,6 +1,6 @@
 const getPlayer = require('../utils/functions/getPlayer');
 
-const command = {
+module.exports = {
 	name: 'add',
 	action: async (bot, msg, command) => {
 		try {
@@ -15,5 +15,3 @@ const command = {
 		}
 	}
 };
-
-module.exports = command;

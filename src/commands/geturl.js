@@ -1,6 +1,6 @@
 const findYtUrl = require('../utils/functions/findYtUrl');
 
-const command = {
+module.exports = {
 	name: 'geturl',
 	action: async (bot, msg, command) => {
 		try {
@@ -13,5 +13,3 @@ const command = {
 		}
 	}
 };
-
-module.exports = command;

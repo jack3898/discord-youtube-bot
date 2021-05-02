@@ -1,7 +1,7 @@
 const getPlayer = require('./../utils/functions/getPlayer');
 const getVideoDetails = require('./../utils/functions/getVideoDetails');
 
-const command = {
+module.exports = {
 	name: 'queue',
 	action: async (bot, msg) => {
 		try {
@@ -34,5 +34,3 @@ const command = {
 		}
 	}
 };
-
-module.exports = command;

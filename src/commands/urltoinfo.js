@@ -1,7 +1,7 @@
 const getVideoDetails = require('../utils/functions/getVideoDetails');
 const ytdl = require('ytdl-core-discord');
 
-const command = {
+module.exports = {
 	name: 'urltoinfo',
 
 	action: async (bot, msg, command) => {
@@ -22,5 +22,3 @@ const command = {
 		}
 	}
 };
-
-module.exports = command;
