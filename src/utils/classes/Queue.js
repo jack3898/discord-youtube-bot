@@ -79,7 +79,8 @@ class Queue {
 					startsFrom: startIndex,
 					endsFrom: endIndex,
 					queueLength: length,
-					pages
+					pages,
+					page: validatedPage + 1
 				});
 			});
 		});

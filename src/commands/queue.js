@@ -1,3 +1,4 @@
+const {MessageEmbed} = require('discord.js');
 const getPlayer = require('./../utils/functions/getPlayer');
 const getVideoDetails = require('./../utils/functions/getVideoDetails');
 
@@ -19,15 +20,32 @@ module.exports = {
 			const videos = result.queue.map(async url => {
 				const details = await getVideoDetails(url);
 
-				if (details) return details.videoDetails.title;
+				if (details) return details.videoDetails;
 				return url;
 			});
 
 			// Wait for all promises to fulfill
 			const resolvedVideos = await Promise.all(videos);
+			const numberFormat = new Intl.NumberFormat(__.numberFormat);
+
+			const embedFields = resolvedVideos.map((video, index) => {
+				const views = numberFormat.format(video.viewCount);
+				const likes = numberFormat.format(video.likes);
+				const dislikes = numberFormat.format(video.dislikes);
+
+				return {
+					name: __.queueitemtitle(index + result.startsFrom + 1, video.title, video.author.name),
+					value: __.queueitemdesc(views, likes, dislikes)
+				};
+			});
+
+			const reply = new MessageEmbed()
+				.setColor(config.success_colour)
+				.setTitle(__.queuetitle())
+				.setDescription(__.queuedesc(result.page, result.pages))
+				.addFields(...embedFields);
 
 			// Construct the list!
-			const reply = resolvedVideos.map((item, index) => __.queueitem(item, index + result.startsFrom)).join('\n');
 
 			msg.channel.send(reply);
 		} catch (error) {
