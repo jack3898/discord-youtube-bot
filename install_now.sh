@@ -48,3 +48,4 @@ sudo service redis-server start
 
 echo "Installation complete. Now, just type 'npm run bot'!"
 echo "Make sure sure you have the following environment variables: DISCORD_TOKEN and GOOGLE_API_TOKEN."
+exit 1
