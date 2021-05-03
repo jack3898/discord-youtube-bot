@@ -6,6 +6,15 @@ const getVideoDetails = require('./../functions/getVideoDetails');
 const ytdl = require('ytdl-core-discord');
 const {promisify} = require('util');
 
+// Redis promisified
+const redisRpush = promisify(redis.rpush).bind(redis);
+const redisRpop = promisify(redis.rpop).bind(redis);
+const redisLpop = promisify(redis.lpop).bind(redis);
+const redisLinsert = promisify(redis.linsert).bind(redis);
+const redisLindex = promisify(redis.lindex).bind(redis);
+const redisLrange = promisify(redis.lrange).bind(redis);
+const redisLlen = promisify(redis.llen).bind(redis);
+
 /**
  * This queue system manages a queue from a Redis database.
  * There are two keys that get added and queried throughout all methods:
@@ -27,19 +36,15 @@ class Queue {
 		return new Promise(async (resolve, reject) => {
 			try {
 				const url = ytdl.validateURL(string) ? string : await findYtUrl(string);
+				const data = await redisRpush(this.queueIdentifier, url);
 
-				redis.rpush(this.queueIdentifier, url, async (err, data) => {
-					if (err) {
-						reject(err);
-						return;
-					}
-					if (data) {
-						const video = await getVideoDetails(url);
-						resolve(video);
-						return;
-					}
-					reject(false);
-				});
+				if (data) {
+					const video = await getVideoDetails(url);
+					resolve(video);
+					return;
+				}
+
+				reject(false);
 			} catch (error) {
 				console.error(error);
 				reject(false);
@@ -53,37 +58,36 @@ class Queue {
 	 * @returns
 	 */
 	get = (page, pageSize = config.paginate_max_results) => {
-		return new Promise((resolve, reject) => {
-			const validatedPage = parseInt(page) - 1;
-			const validatedPageSize = parseInt(pageSize);
+		return new Promise(async (resolve, reject) => {
+			try {
+				const validatedPage = parseInt(page) - 1;
+				const validatedPageSize = parseInt(pageSize);
 
-			if (Number.isNaN(validatedPage) || Number.isNaN(validatedPageSize)) {
-				reject(`The page and or page size provided are not a valid number. Start = ${validatedStart} and finish = ${validatedFinish}.`);
-				return;
-			}
-
-			const startIndex = validatedPage * validatedPageSize;
-			const endIndex = validatedPage * validatedPageSize + validatedPageSize - 1;
-
-			redis.lrange(this.queueIdentifier, startIndex, endIndex, async (err, data) => {
-				if (err) {
-					reject(err);
+				if (Number.isNaN(validatedPage) || Number.isNaN(validatedPageSize)) {
+					reject(`The page and or page size provided are not a valid number. Start = ${validatedStart} and finish = ${validatedFinish}.`);
 					return;
 				}
 
+				const startIndex = validatedPage * validatedPageSize;
+				const endIndex = validatedPage * validatedPageSize + validatedPageSize - 1;
+
+				const result = await redisLrange(this.queueIdentifier, startIndex, endIndex);
 				const length = await this.length();
 				const pages = Math.ceil(length / validatedPageSize);
 
 				resolve({
-					queue: data,
-					pageSize: data.length,
+					queue: result,
+					pageSize: result.length,
 					startsFrom: startIndex,
 					endsFrom: endIndex,
 					queueLength: length,
 					pages,
 					page: validatedPage + 1
 				});
-			});
+			} catch (error) {
+				console.error(error);
+				reject(error);
+			}
 		});
 	};
 
@@ -92,15 +96,13 @@ class Queue {
 	 * @returns {Promise<Error|integer>}
 	 */
 	length = () => {
-		return new Promise((resolve, reject) => {
-			redis.llen(this.queueIdentifier, (err, data) => {
-				if (err) {
-					reject(err);
-					return;
-				}
-
-				resolve(data);
-			});
+		return new Promise(async (resolve, reject) => {
+			try {
+				const result = await redisLlen(this.queueIdentifier);
+				resolve(result);
+			} catch (error) {
+				reject(err);
+			}
 		});
 	};
 
@@ -116,15 +118,14 @@ class Queue {
 	 * @returns {Promise<Error|Boolean>}
 	 */
 	pop = () => {
-		return new Promise((resolve, reject) => {
-			redis.rpop(this.queueIdentifier, err => {
-				if (err) {
-					reject(err);
-					return;
-				}
-
-				resolve(true);
-			});
+		return new Promise(async (resolve, reject) => {
+			try {
+				const result = await redisRpop(this.queueIdentifier);
+				resolve(result);
+			} catch (error) {
+				console.error(error);
+				reject(err);
+			}
 		});
 	};
 
@@ -154,9 +155,6 @@ class Queue {
 
 				if (Number.isNaN(initialIndexAdjusted) || Number.isNaN(newIndexAdjusted)) reject('Invalid index values. Integers only.');
 
-				const redisLinsert = promisify(redis.linsert).bind(redis);
-				const redisLindex = promisify(redis.lindex).bind(redis);
-
 				const songToInsertBefore = await redisLindex(this.queueIdentifier, newIndexAdjusted);
 				const itemToMove = await redisLindex(this.queueIdentifier, initialIndexAdjusted);
 
@@ -177,15 +175,14 @@ class Queue {
 	 * @returns {Promise<Error|Boolean>}
 	 */
 	shift = () => {
-		return new Promise((resolve, reject) => {
-			redis.lpop(this.queueIdentifier, err => {
-				if (err) {
-					reject(err);
-					return;
-				}
-
-				resolve(true);
-			});
+		return new Promise(async (resolve, reject) => {
+			try {
+				const result = await redisLpop(this.queueIdentifier);
+				resolve(result);
+			} catch (error) {
+				console.error(error);
+				reject(error);
+			}
 		});
 	};
 }
