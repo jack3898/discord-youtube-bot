@@ -4,10 +4,6 @@
 # Use curl <LINK TO THIS RAW FILE HERE> | bash
 # THIS SCRIPT IS IN PROGRESS AND MAY NOT WORK. If it doesn't just do things manually, sorry. :(
 
-echo -e -n "This script will install the bot. Do you wish to continue? (y/N): "
-read -r CONFIRM_INSTALL
-
-if [[ "$CONFIRM_INSTALL" =~ [Yy] ]]; then
     # Update machine repos and software
     sudo apt update
     sudo apt dist-upgrade -y
@@ -50,6 +46,3 @@ if [[ "$CONFIRM_INSTALL" =~ [Yy] ]]; then
 
     echo "Installation complete. Now, just type 'npm run bot'!"
     echo "Make sure sure you have the following environment variables: DISCORD_TOKEN and GOOGLE_API_TOKEN."
-else
-    echo 'Installation cancelled'
-fi
