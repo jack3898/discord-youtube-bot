@@ -25,6 +25,7 @@ const language = {
 	invoiceorbusy: () => `You are not in a voice channel or I am busy. Try adding something to the queue with \`${config.prefix}add <URL|search>\``,
 	popsuccess: () => `Removed the most recent item from the queue.`,
 	skipped: () => `Skipped!`,
+	skipfail: () => `Could not skip. I am not playing any music!`,
 	invalidpage: () => `That is not a valid page!`,
 	emptypage: () => `This page is empty.`,
 
@@ -41,7 +42,7 @@ const language = {
 	pop: prefix => `This will remove the newest item from the queue with \`${prefix}pop\`.`,
 	queue: prefix => `Get the current queue with \`${prefix}queue\`.`,
 	queuelength: prefix => `Get the length of the queue with \`${prefix}queuelength\`.`,
-	skip: prefix => `Skip the current playing song with \`${prefix}skip\`.`,
+	skip: prefix => `Skip the current playing song with \`${prefix}skip\`. Or skip to a song later in the queue with \`${prefix}skip <song number>\` which can be identified with \`${prefix}queue <page>\`.`,
 	stop: prefix => `Stop the bot from playing and leave the channel with \`${prefix}stop\`.`,
 	test: prefix => `Is the bot working? Test it!`,
 	urltoinfo: prefix => `Get video information from a given URL with \`${prefix}urltoinfo\`.`,

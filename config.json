@@ -3,7 +3,7 @@
 	"language": "en",
 	"redis_port": 6379,
 	"redis_namespace": "ytbot",
-	"redis_flush_on_start": true,
+	"redis_flush_on_start": false,
 	"paginate_max_results": 10,
 	"youtube_playlist_max_results": 50,
 	"default_volume_percent": 70,

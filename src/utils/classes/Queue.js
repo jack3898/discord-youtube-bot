@@ -4,6 +4,7 @@ const redis = redisModule.createClient(config.redis_port);
 const findYtUrl = require('./../functions/findYtUrl');
 const getVideoDetails = require('./../functions/getVideoDetails');
 const ytdl = require('ytdl-core-discord');
+const {promisify} = require('util');
 
 /**
  * This queue system manages a queue from a Redis database.
@@ -124,6 +125,50 @@ class Queue {
 
 				resolve(true);
 			});
+		});
+	};
+
+	/**
+	 * Remove and item from the queue
+	 * @param {integer} index
+	 */
+	remove = async (index, value) => {
+		const redisLrem = promisify(redis.lrem).bind(redis);
+		const result = await redisLrem(this.queueIdentifier, index, value);
+
+		if (result) return true;
+		return false;
+	};
+
+	/**
+	 * Move an item in the queue
+	 * @param {*} initialIndex
+	 * @param {*} newIndex
+	 * @returns
+	 */
+	move = (initialIndex, newIndex) => {
+		return new Promise(async (resolve, reject) => {
+			try {
+				const initialIndexAdjusted = parseInt(initialIndex) - 1;
+				const newIndexAdjusted = parseInt(newIndex) - 1;
+
+				if (Number.isNaN(initialIndexAdjusted) || Number.isNaN(newIndexAdjusted)) reject('Invalid index values. Integers only.');
+
+				const redisLinsert = promisify(redis.linsert).bind(redis);
+				const redisLindex = promisify(redis.lindex).bind(redis);
+
+				const songToInsertBefore = await redisLindex(this.queueIdentifier, newIndexAdjusted);
+				const itemToMove = await redisLindex(this.queueIdentifier, initialIndexAdjusted);
+
+				const removeResult = await this.remove(initialIndexAdjusted, itemToMove);
+				if (removeResult) await redisLinsert(this.queueIdentifier, 'AFTER', songToInsertBefore, itemToMove);
+
+				console.log(removeResult);
+				resolve(true);
+			} catch (error) {
+				console.error(error);
+				reject(false);
+			}
 		});
 	};
 
