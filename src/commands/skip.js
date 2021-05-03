@@ -17,7 +17,7 @@ module.exports = {
 
 			if (moveIndex) {
 				// Move the item at identified index to position 2 in queue
-				await player.move(moveIndex, 1);
+				await player.move(moveIndex, 2);
 			}
 
 			// Remove song 1, and play item in position 2 (hence why player.move() moved item to position 2)

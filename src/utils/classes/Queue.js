@@ -161,7 +161,7 @@ class Queue {
 				const itemToMove = await redisLindex(this.queueIdentifier, initialIndexAdjusted);
 
 				const removeResult = await this.remove(initialIndexAdjusted, itemToMove);
-				if (removeResult) await redisLinsert(this.queueIdentifier, 'AFTER', songToInsertBefore, itemToMove);
+				if (removeResult) await redisLinsert(this.queueIdentifier, 'BEFORE', songToInsertBefore, itemToMove);
 
 				console.log(removeResult);
 				resolve(true);
