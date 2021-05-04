@@ -1,5 +1,5 @@
 /**
- * Get a percentage from a value.
+ * Get a percentage from a value. Will remove characters from strings and find the numbers.
  * @param {*} percentage
  * @returns {integer} value between 0 and 100
  */

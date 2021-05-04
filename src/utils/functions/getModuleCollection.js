@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 /**
  * Take a directory, and a list of file names and create a Discord Collection of modules. Useful for commands.
  * @param {Array} filenames Including extension.
- * @param {*} directory Relative to source folder.
+ * @param {string} directory Relative to source folder.
  * @returns {Discord.Collection}
  */
 function getModuleCollection(filenames, directory) {

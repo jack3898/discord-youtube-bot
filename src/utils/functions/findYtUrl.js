@@ -3,8 +3,8 @@ const {youtube} = require('@googleapis/youtube');
 /**
  * Attempt to find a YouTube video URL from any given string
  * @param {string} search
- * @param {Boolean} manyResults Return many results. If set, it will use the limit defined in the config.
- * @returns {Array|Boolean} The URL(s) or if an error occurred, false
+ * @param {Boolean} [manyResults=false] Return many results. If set, it will use the limit defined in the config.
+ * @returns {Promise<Array>} The URL(s) or if an error occurred, false
  */
 async function findYtUrl(search, manyResults = false) {
 	return new Promise(async (resolve, reject) => {
@@ -26,7 +26,7 @@ async function findYtUrl(search, manyResults = false) {
 
 			await yt.search.list(params, (err, data) => {
 				if (err) {
-					reject(error);
+					reject(err);
 					return;
 				}
 
