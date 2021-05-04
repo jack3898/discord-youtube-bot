@@ -32,7 +32,7 @@ class Queue {
 	 * @returns {Promise<Object>} video details
 	 */
 	add = async string => {
-		const url = ytdl.validateURL(string) ? string : await findYtUrl(string);
+		const url = ytdl.validateURL(string) ? string : await findYtUrl(string, 1);
 		const data = await redisRpush(this.queueIdentifier, url);
 
 		if (data) {

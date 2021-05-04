@@ -16,7 +16,9 @@ const language = {
 	queuetitle: () => `Queue`,
 	queuedesc: (page, pages) => `Page ${page} / ${pages}`,
 	queueitemtitle: (index, title, author) => `${index}) "${title}" by ${author}`, // When the user types !queue to fetch a list of items in the queue. The list item is this format.
+	searchitemtitle: (index, title) => `${index}) ${title}`,
 	queueitemdesc: (views, likes, dislikes) => `\`${views}\` views, \`${likes}\` likes, and \`${dislikes}\` dislikes.`,
+	searchitemdesc: author => `By ${author}`,
 	emptyqueue: () => `The queue is empty.`,
 	totalqueuelength: length => `The queue has ${length} item(s) in it.`,
 	clearedqueue: () => `Cleared entire queue!`,
@@ -28,11 +30,13 @@ const language = {
 	skipfail: () => `Could not skip. I am not playing any music!`,
 	invalidpage: () => `That is not a valid page!`,
 	emptypage: () => `This page is empty.`,
+	searchtitle: () => `Which video would you like to add to the queue?`,
 
 	// Help command help messages
 	helptitle: (page, pageCount) => `Help - page ${page} / ${pageCount}`,
 	helpdesc: pageLength => `Get help with this bot. Showing ${pageLength} item(s).`,
 	add: prefix => `Add an item to the queue with \`${prefix}add <url|search>\`.`,
+	search: prefix => `Search for some videos with \`${prefix}search <search>\`! Will present you with a list of ${config.search_reaction_options.length} results. Use Discord's reaction system to pick the video that suits you.`,
 	clear: prefix => `Clear the entire queue with \`${prefix}clear\`. Poof. Gone.`,
 	geturl: prefix => `Use a search term to get the first result URL of a YouTube video with \`${prefix}geturl <search>\`.`,
 	help: prefix => `You just used this command! You may go to the next page with \`${prefix}help <number>\``,

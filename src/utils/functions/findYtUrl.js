@@ -3,10 +3,10 @@ const {youtube} = require('@googleapis/youtube');
 /**
  * Attempt to find a YouTube video URL from any given string
  * @param {string} search
- * @param {Boolean} manyResults Return many results. If set, it will use the limit defined in the config.
+ * @param {Boolean} [resultCount=config.paginate_max_results] Return many results. If not set, the limit in the config will be used.
  * @returns {Array|Boolean} The URL(s) or if an error occurred, false
  */
-async function findYtUrl(search, manyResults = false) {
+async function findYtUrl(search, resultCount = config.paginate_max_results) {
 	return new Promise(async (resolve, reject) => {
 		try {
 			const yt = youtube({
@@ -14,8 +14,8 @@ async function findYtUrl(search, manyResults = false) {
 				auth: process.env.GOOGLE_API_TOKEN
 			});
 
-			// How many results? By default, just use one. But if manyResults is truthy, use the value in the config.
-			const maxResults = manyResults ? config.paginate_max_results : 1;
+			// How many results? By default, just use one. But if resultCount is truthy, use the value in the config.
+			const maxResults = Number.isNaN(parseInt(resultCount)) ? config.paginate_max_results : resultCount;
 
 			const params = {
 				part: 'id',

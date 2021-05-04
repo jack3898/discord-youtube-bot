@@ -5,7 +5,7 @@ module.exports = {
 	description: __.geturl(config.prefix),
 	action: async (bot, msg, command) => {
 		try {
-			const urls = await findYtUrl(command.combined);
+			const urls = await findYtUrl(command.combined, 1);
 
 			msg.channel.send(urls.join('\n'));
 		} catch (error) {
