@@ -29,10 +29,10 @@ module.exports = {
 
 			player.finish();
 		} catch (error) {
-			const player = getPlayer(msg.guild, bot);
-
 			console.error(error);
-			player.finish();
+
+			const player = getPlayer(msg.guild, bot);
+			await player.finish();
 			msg.channel.send(__.commanderror());
 		}
 	}

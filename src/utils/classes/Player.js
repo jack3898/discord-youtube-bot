@@ -6,6 +6,7 @@ const ytdl = require('ytdl-core-discord');
 const getPercentage = require('./../functions/getPercentage');
 const {promisify} = require('util');
 
+// Redis promisified
 const redisGet = promisify(redis.get).bind(redis);
 const redisSet = promisify(redis.set).bind(redis);
 
@@ -28,13 +29,9 @@ class Player extends Queue {
 	 * @returns {Promise<boolean>} Successful or not.
 	 */
 	join = async channel => {
-		try {
-			this.connection = await channel.join(channel);
+		this.connection = await channel.join(channel);
 
-			return true;
-		} catch (error) {
-			return Promise.reject(false);
-		}
+		return this.connection;
 	};
 
 	/**
@@ -64,7 +61,7 @@ class Player extends Queue {
 			} catch (error) {
 				console.error(error);
 				await this.shift();
-				reject(false);
+				reject(error);
 			}
 		});
 	};
@@ -74,15 +71,9 @@ class Player extends Queue {
 	 * @returns {Promise<boolean>}
 	 */
 	skip = async () => {
-		try {
-			this.dispatcher?.emit('finish');
+		this.dispatcher?.emit('finish');
 
-			return true;
-		} catch (error) {
-			console.error(error);
-
-			return Promise.reject(false);
-		}
+		return true;
 	};
 
 	/**
@@ -96,26 +87,19 @@ class Player extends Queue {
 	 * @param {number} [volume] Percentage. Integer only.
 	 * @returns {Promise<number|false>}
 	 */
-	volume = volume => {
-		return new Promise(async (resolve, reject) => {
-			try {
-				const percentage = getPercentage(volume);
+	volume = async volume => {
+		const percentage = getPercentage(volume);
 
-				if (!percentage) return;
+		if (!percentage) return;
 
-				// ytdl-core prefers ranges between 0 - 1 rather than 0 - 100
-				const volumeFloat = percentage / 100;
+		// ytdl-core prefers ranges between 0 - 1 rather than 0 - 100
+		const volumeFloat = percentage / 100;
 
-				// Set the volume, if the dispatcher is available and then save the user's preference in Redis
-				await this.dispatcher?.setVolume(volumeFloat);
-				await redisSet(this.volumeIdentifier, percentage);
+		// Set the volume, if the dispatcher is available and then save the user's preference in Redis
+		await this.dispatcher?.setVolume(volumeFloat);
+		await redisSet(this.volumeIdentifier, percentage);
 
-				resolve(percentage);
-			} catch (error) {
-				console.error(error);
-				reject(false);
-			}
-		});
+		return percentage;
 	};
 
 	/**
@@ -123,17 +107,9 @@ class Player extends Queue {
 	 * @returns {Promise<number>} integer 0 - 100
 	 */
 	getVolume = async () => {
-		return new Promise(async (resolve, reject) => {
-			try {
-				const result = await redisGet(this.volumeIdentifier);
+		const result = await redisGet(this.volumeIdentifier);
 
-				if (result) resolve(result);
-				else resolve(config.default_volume_percent);
-			} catch (error) {
-				console.error(error);
-				reject(error);
-			}
-		});
+		return result ? result : config.default_volume_percent;
 	};
 
 	/**
@@ -142,16 +118,10 @@ class Player extends Queue {
 	 * @returns {Promise<Boolean>}
 	 */
 	finish = async () => {
-		try {
-			this.connection?.disconnect();
-			this.bitstream?.destroy();
+		this.connection?.disconnect();
+		this.bitstream?.destroy();
 
-			return true;
-		} catch (error) {
-			console.log(error);
-
-			return Promise.reject(false);
-		}
+		return true;
 	};
 }
 

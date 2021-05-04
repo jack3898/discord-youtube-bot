@@ -31,24 +31,17 @@ class Queue {
 	 * @param {string} string
 	 * @returns {Promise<Object>} video details
 	 */
-	add = string => {
-		return new Promise(async (resolve, reject) => {
-			try {
-				const url = ytdl.validateURL(string) ? string : await findYtUrl(string);
-				const data = await redisRpush(this.queueIdentifier, url);
+	add = async string => {
+		const url = ytdl.validateURL(string) ? string : await findYtUrl(string);
+		const data = await redisRpush(this.queueIdentifier, url);
 
-				if (data) {
-					const video = await getVideoDetails(url);
+		if (data) {
+			const video = await getVideoDetails(url);
 
-					resolve(video);
-					return;
-				}
+			return video;
+		}
 
-				reject(false);
-			} catch (error) {
-				reject(false);
-			}
-		});
+		return false;
 	};
 
 	/**
@@ -57,118 +50,80 @@ class Queue {
 	 * @param {number} [pageSize=config.paginate_max_results] How big the page should be. By default this is the value in the config.
 	 * @returns {Promise<Object>} Details about the retrieval including page, page size, page length and of course the queue result itself.
 	 */
-	get = (page, pageSize = config.paginate_max_results) => {
-		return new Promise(async (resolve, reject) => {
-			try {
-				const validatedPage = parseInt(page) - 1;
-				const validatedPageSize = parseInt(pageSize);
+	get = async (page, pageSize = config.paginate_max_results) => {
+		const validatedPage = parseInt(page) - 1;
+		const validatedPageSize = parseInt(pageSize);
 
-				if (Number.isNaN(validatedPage) || Number.isNaN(validatedPageSize)) {
-					reject(`The page and or page size provided are not a valid number. Start = ${validatedStart} and finish = ${validatedFinish}.`);
-					return;
-				}
+		if (Number.isNaN(validatedPage) || Number.isNaN(validatedPageSize)) {
+			reject(`The page and or page size provided are not a valid number. Start = ${validatedStart} and finish = ${validatedFinish}.`);
+			return;
+		}
 
-				const startIndex = validatedPage * validatedPageSize;
-				const endIndex = validatedPage * validatedPageSize + validatedPageSize - 1;
-				const result = await redisLrange(this.queueIdentifier, startIndex, endIndex);
-				const length = await this.length();
-				const pages = Math.ceil(length / validatedPageSize);
+		const startIndex = validatedPage * validatedPageSize;
+		const endIndex = validatedPage * validatedPageSize + validatedPageSize - 1;
+		const result = await redisLrange(this.queueIdentifier, startIndex, endIndex);
+		const length = await this.length();
+		const pages = Math.ceil(length / validatedPageSize);
 
-				resolve({
-					queue: result,
-					pageSize: result.length,
-					startsFrom: startIndex,
-					endsFrom: endIndex,
-					queueLength: length,
-					pages,
-					page: validatedPage + 1
-				});
-			} catch (error) {
-				reject(error);
-			}
-		});
+		return {
+			queue: result,
+			pageSize: result.length,
+			startsFrom: startIndex,
+			endsFrom: endIndex,
+			queueLength: length,
+			pages,
+			page: validatedPage + 1
+		};
 	};
 
 	/**
 	 * Get the length of the queue.
 	 * @returns {Promise<integer>}
 	 */
-	length = () => {
-		return new Promise(async (resolve, reject) => {
-			try {
-				const result = await redisLlen(this.queueIdentifier);
+	length = async () => {
+		const result = await redisLlen(this.queueIdentifier);
 
-				resolve(result);
-			} catch (error) {
-				reject(error);
-			}
-		});
+		return result;
 	};
 
 	/**
 	 * Clear the queue entirely.
-	 * @returns
+	 * @returns {Promise<boolean>} Successful or not.
 	 */
-	clear = () => {
-		return new Promise(async (resolve, reject) => {
-			try {
-				const result = await redisDel(this.queueIdentifier);
+	clear = async () => {
+		const result = await redisDel(this.queueIdentifier);
 
-				if (result) resolve(true);
-				else resolve(false);
-			} catch (error) {
-				reject(error);
-			}
-		});
+		return result;
 	};
 
 	/**
 	 * Remove an item from the right side of the queue (newest).
 	 * @returns {Promise<Error|Boolean>}
 	 */
-	pop = () => {
-		return new Promise(async (resolve, reject) => {
-			try {
-				const result = await redisRpop(this.queueIdentifier);
+	pop = async () => {
+		const result = await redisRpop(this.queueIdentifier);
 
-				resolve(result);
-			} catch (error) {
-				reject(error);
-			}
-		});
+		return result;
 	};
 
 	/**
 	 * Remove an item from the left side of the queue (oldest, current playing).
 	 * @returns {Promise<Error|Boolean>}
 	 */
-	shift = () => {
-		return new Promise(async (resolve, reject) => {
-			try {
-				const result = await redisLpop(this.queueIdentifier);
+	shift = async () => {
+		const result = await redisLpop(this.queueIdentifier);
 
-				resolve(result);
-			} catch (error) {
-				reject(error);
-			}
-		});
+		return result;
 	};
 
 	/**
 	 * Remove and item from the queue.
 	 * @param {integer} index
 	 */
-	remove = (index, value) => {
-		return new Promise(async (resolve, reject) => {
-			try {
-				const result = await redisLrem(this.queueIdentifier, index, value);
+	remove = async (index, value) => {
+		const result = await redisLrem(this.queueIdentifier, index, value);
 
-				if (result) resolve(true);
-				else resolve(false);
-			} catch (error) {
-				reject(error);
-			}
-		});
+		return result;
 	};
 
 	/**
@@ -177,25 +132,19 @@ class Queue {
 	 * @param {*} newIndex
 	 * @returns {Promise<boolean>}
 	 */
-	move = (initialIndex, newIndex) => {
-		return new Promise(async (resolve, reject) => {
-			try {
-				const initialIndexAdjusted = parseInt(initialIndex) - 1;
-				const newIndexAdjusted = parseInt(newIndex) - 1;
+	move = async (initialIndex, newIndex) => {
+		const initialIndexAdjusted = parseInt(initialIndex) - 1;
+		const newIndexAdjusted = parseInt(newIndex) - 1;
 
-				if (Number.isNaN(initialIndexAdjusted) || Number.isNaN(newIndexAdjusted)) reject('Invalid index values. Integers only.');
+		if (Number.isNaN(initialIndexAdjusted) || Number.isNaN(newIndexAdjusted)) reject('Invalid index values. Integers only.');
 
-				const songToInsertBefore = await redisLindex(this.queueIdentifier, newIndexAdjusted);
-				const itemToMove = await redisLindex(this.queueIdentifier, initialIndexAdjusted);
-				const removeResult = await this.remove(initialIndexAdjusted, itemToMove);
+		const songToInsertBefore = await redisLindex(this.queueIdentifier, newIndexAdjusted);
+		const itemToMove = await redisLindex(this.queueIdentifier, initialIndexAdjusted);
+		const removeResult = await this.remove(initialIndexAdjusted, itemToMove);
 
-				if (removeResult) await redisLinsert(this.queueIdentifier, 'BEFORE', songToInsertBefore, itemToMove);
+		if (removeResult) await redisLinsert(this.queueIdentifier, 'BEFORE', songToInsertBefore, itemToMove);
 
-				resolve(true);
-			} catch (error) {
-				reject(error);
-			}
-		});
+		return true;
 	};
 }
 
