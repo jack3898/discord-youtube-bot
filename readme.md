@@ -1,35 +1,49 @@
-
-# Discord YouTube Bot
+# Discord YouTube Bot (beta)
 Omg another YouTube Bot for the Discord Bot ecosystem! do we really need another one?
 
 Ah, but I enjoy making Discord bots and sharing my code. So, here it is.
 
-A lot of music bots are private and proprietary (and lock features behind a paywall), and whilst I am sure there are other open source music bots I aim to make this one the best. But no guarantees. Why else would I try?
+A lot of music bots are private and proprietary (and lock features behind a paywall), and whilst I am sure there are other open source music bots I aim to make this one the best.
 
-I am writing this readme file at the very beginning of this project, so fingers crossed it goes to plan!
+## Features
+| Command               | What it does                                                 |
+| --------------------- | ------------------------------------------------------------ |
+| !add <URL or search>  | Add a YouTube video to the queue with a URL or search query. |
+| !clear                | Clear the queue. Poof! Gone.                                 |
+| !geturl <search>      | Use a search query to get a video URL.                       |
+| !help <page>          | Get a list of commands! Like this table.                     |
+| !pause <minutes>      | Pause the bot. You may optionally specify how many minutes in the future it will auto-resume. |
+| !play <URL or search> | The bot will insta-join your voice channel and play the tune you specified so long as the queue is empty (otherwise it will add to the queue and resume the queue). |
+| !playlist <URL>       | You may import a playlist with a URL and the bot will convert it and append it to the queue. |
+| !pop                  | Remove the newest item from the queue.                       |
+| !queue <page>         | Get the queue, if your queue is long specify the page.       |
+| !queuelength          | The bot will tell you how many items there are in the queue. |
+| !remove               | Remove an item from the queue with the queue item number.    |
+| !resume               | Resume the audio if the bot is paused.                       |
+| !search               | Search for a video. You will be presented with a list by which you may choose which one to add to the queue using Discord's reaction system. You may also ignore the results and never add anything to the queue. |
+| !skip                 | Does what it says on the tin!                                |
+| !stop                 | Stop the bot from playing the audio and make it leave the channel. Will not tamper with the queue. |
+| !test                 | See if the bot works!                                        |
+| !utltoinfo <URL>      | Paste a YouTube video URL and get the video details. I know this isn't all that useful! |
+| !volume <percentage>  | Alter the playback volume of the bot. Any integer between 0 and 100 will work! It also retains the volume permanently. |
 
-## Plans
-I want this bot to end up being:
-- Open source
-- Free
-- Fast and light
-- Secure
-- Well written
-- Easily extensible
-- Simple (this bot will not be advanced at its core!)
-- A powerful config that lets you customise the bot's behaviour.
 
-A lot of bold words for a beginner developer that's for sure.
-
-This bot will NOT be a moderation bot, or utility bot. It will be explicitly used for YouTube.
 
 ## Technologies
-I plan to have this bot run using Discord.js, a free and also open source library for interacting with the Discord bot API with JavaScript as the programming language behind it all.
-I will use Redis to store information like queues and playlists. Using a permanent database (I am thinking of MariaDB) is in mind, but I don't plan to add it yet as a lot of starting functionality does not require it.
+This bot is proudly powered with Node.js & Redis!
+
+Discord.js is the library that powers the communication to Discord's bot API. Those guys made it super easy for me to make this bot!
 
 
 ## Setup
-Coming soon! I haven't developed the bot enough yet! But I will look into creating an easy to use Docker image so upgrading and deployment is super easy. Of course an option to download the code as-is will be available and I will provide details on how to set that up too.
+1. You will need Node.js 14 for this bot to fully work. Currently the major releases after that have a bug where the bot will not resume playback after being paused. You may choose to run the latest stable version, as that is the only small compromise you will have to make.
+
+2. You will need two API tokens in your system's environment variables:
+   1. `DISCORD_TOKEN` - Which you can find at https://discord.com/developers
+   2. `GOOGLE_API_TOKEN` - Which you can create in the Google Cloud platform.
+
+5. Start Redis as a service `sudo service redis-server start`.
+6. At the root of the project folder, type `npm run bot`.
 
 ## License
 Copyright (C) 2021 Jack Wright
