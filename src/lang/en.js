@@ -56,7 +56,7 @@ const language = {
 	test: prefix => `Is the bot working? Test it!`,
 	urltoinfo: prefix => `Get video information from a given URL with \`${prefix}urltoinfo\`.`,
 	volume: prefix => `Change the playing volume of the bot with \`${prefix}volume <percentage>\`.`,
-	pause: prefix => `Pause the bot from playing music with \`${prefix}pause\` or you may set an auto-resume with \`${prefix}pause <minutes>\`.`
+	pause: prefix => `Pause the bot from playing sound with \`${prefix}pause\` or you may set an auto-resume with \`${prefix}pause <minutes>\`.`,
+	resume: prefix => `Resume playback from a paused bot with \`${prefix}resume\`.`
 };
-
 module.exports = language;
