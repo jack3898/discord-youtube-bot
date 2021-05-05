@@ -83,6 +83,43 @@ class Player extends Queue {
 	playing = () => (this.connection?.speaking.bitfield ? true : false);
 
 	/**
+	 * Pause the dispatcher. You may optionally provide a duration in minutes and it will auto-resume.
+	 * @param {number} [duration=false]
+	 * @returns {number} How long the bot is paused for in minutes. 0 = forever. -1 = no pause.
+	 */
+	pause = async (duration = false) => {
+		if (!this.dispatcher) return -1;
+
+		this.dispatcher.pause(true);
+
+		let durationInt = parseInt(duration);
+
+		if (!Number.isNaN(durationInt)) {
+			durationInt = durationInt < 1440 ? durationInt : 1440; // Cap it at one day.
+
+			const minutesToMilli = durationInt * 60 * 1000;
+			setTimeout(this.resume, minutesToMilli);
+			return durationInt;
+		}
+
+		return 0;
+	};
+
+	/**
+	 * Resume the dispatcher.
+	 * @param {} volume
+	 * @returns
+	 */
+	resume = async () => {
+		if (this.dispatcher.paused) {
+			this.dispatcher.resume();
+			return true;
+		}
+
+		return false;
+	};
+
+	/**
 	 * Change the volume of the bot's voice communication. If volume is not supplied, it is assumed the user wants to get the volume.
 	 * @param {number} [volume] Percentage. Integer only.
 	 * @returns {Promise<number|false>}

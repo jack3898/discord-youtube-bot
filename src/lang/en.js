@@ -31,6 +31,11 @@ const language = {
 	invalidpage: () => `That is not a valid page!`,
 	emptypage: () => `This page is empty.`,
 	searchtitle: () => `Which video would you like to add to the queue?`,
+	unabletopause: () => `Could not pause. Is something playing?`,
+	pausedfortime: minutes => `Paused for ${minutes} minute(s)!`,
+	pausedforever: prefix => `Paused. Type \`${prefix}resume\` to resume playback.`,
+	unabletoresume: () => `Could not resume. Is there something playing?`,
+	resumed: () => `Resumed!`,
 
 	// Help command help messages
 	helptitle: (page, pageCount) => `Help - page ${page} / ${pageCount}`,
@@ -50,7 +55,8 @@ const language = {
 	stop: prefix => `Stop the bot from playing and leave the channel with \`${prefix}stop\`.`,
 	test: prefix => `Is the bot working? Test it!`,
 	urltoinfo: prefix => `Get video information from a given URL with \`${prefix}urltoinfo\`.`,
-	volume: prefix => `Change the playing volume of the bot with \`${prefix}volume <percentage>\`.`
+	volume: prefix => `Change the playing volume of the bot with \`${prefix}volume <percentage>\`.`,
+	pause: prefix => `Pause the bot from playing music with \`${prefix}pause\` or you may set an auto-resume with \`${prefix}pause <minutes>\`.`
 };
 
 module.exports = language;
