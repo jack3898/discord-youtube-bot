@@ -36,6 +36,8 @@ const language = {
 	pausedforever: prefix => `Paused. Type \`${prefix}resume\` to resume playback.`,
 	unabletoresume: () => `Could not resume. Is there something playing?`,
 	resumed: () => `Resumed!`,
+	removed: () => `Removed from the queue!`,
+	noremovalnumber: () => `Specify the queue item number you want to remove.`,
 
 	// Help command help messages
 	helptitle: (page, pageCount) => `Help - page ${page} / ${pageCount}`,
@@ -57,6 +59,7 @@ const language = {
 	urltoinfo: prefix => `Get video information from a given URL with \`${prefix}urltoinfo\`.`,
 	volume: prefix => `Change the playing volume of the bot with \`${prefix}volume <percentage>\`.`,
 	pause: prefix => `Pause the bot from playing sound with \`${prefix}pause\` or you may set an auto-resume with \`${prefix}pause <minutes>\`.`,
-	resume: prefix => `Resume playback from a paused bot with \`${prefix}resume\`.`
+	resume: prefix => `Resume playback from a paused bot with \`${prefix}resume\`.`,
+	remove: prefix => `Remove an item from the queue with the queue item number with \`${prefix}remove\`. You can use \`${prefix}queue\` to get a list of numbers.`
 };
 module.exports = language;
