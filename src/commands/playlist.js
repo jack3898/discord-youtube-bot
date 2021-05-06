@@ -1,5 +1,5 @@
-const getPlaylist = require('./../utils/functions/getPlaylist');
-const getPlayer = require('../utils/functions/getPlayer');
+const {getPlaylist} = require('./../utils/functions/getHandlers');
+const {getPlayer} = require('./../utils/classes/Player');
 
 module.exports = {
 	name: 'playlist',

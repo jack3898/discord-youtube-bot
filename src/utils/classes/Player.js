@@ -3,7 +3,7 @@ const Queue = require('./Queue');
 const redisModule = require('redis');
 const redis = redisModule.createClient(config.redis_port);
 const ytdl = require('ytdl-core-discord');
-const getPercentage = require('./../functions/getPercentage');
+const {getPercentage} = require('./../functions/getHandlers');
 const {promisify} = require('util');
 
 // Redis promisified
@@ -22,6 +22,21 @@ class Player extends Queue {
 		this.bitstream = null;
 		this.currentVolume = null;
 	}
+
+	/**
+	 * Get the audio player for a given guild. This allows the bot to play different queues in different guilds.
+	 * If no player is found for the guild, it creates a new one and returns an empty player.
+	 * @returns {Player}
+	 */
+	static getPlayer = (guild, bot) => {
+		if (!guild instanceof Discord.Guild) throw TypeError('Argument 1, "guild" is not an instance of Discord.Guild!');
+
+		const player = bot.players.get(guild.id);
+		if (player instanceof this) return player;
+
+		bot.players.set(guild.id, new Player(guild, bot));
+		return bot.players.get(guild.id);
+	};
 
 	/**
 	 * Join a voice channel and create a new connection in this instance.

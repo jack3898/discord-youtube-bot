@@ -1,4 +1,4 @@
-const getPlayer = require('../utils/functions/getPlayer');
+const {getPlayer} = require('./../utils/classes/Player');
 
 module.exports = {
 	name: 'play',

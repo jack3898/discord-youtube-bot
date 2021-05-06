@@ -1,7 +1,6 @@
 const {MessageEmbed} = require('discord.js');
-const getVideoDetails = require('./../utils/functions/getVideoDetails');
-const getPlayer = require('./../utils/functions/getPlayer');
-const findYtUrl = require('./../utils/functions/findYtUrl');
+const {getVideoDetails, findYtUrl} = require('./../utils/functions/getHandlers');
+const {getPlayer} = require('./../utils/classes/Player');
 
 module.exports = {
 	name: 'search',

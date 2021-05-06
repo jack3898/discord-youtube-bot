@@ -12,10 +12,7 @@ const redisModule = require('redis');
 const redis = redisModule.createClient(config.redis_port);
 
 // Init functions
-const onRedisReady = require('./utils/init/onRedisReady');
-const onRedisError = require('./utils/init/onRedisError');
-const onBotReady = require('./utils/init/onBotReady');
-const onMessage = require('./utils/functions/onMessage');
+const {onRedisReady, onRedisError, onBotReady, onMessage} = require('./utils/functions/eventHandlers');
 
 // Wait for Redis to run
 redis.on('ready', () => onRedisReady(bot, redis));

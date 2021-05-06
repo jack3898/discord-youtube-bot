@@ -1,4 +1,4 @@
-const getVideoDetails = require('../utils/functions/getVideoDetails');
+const {getVideoDetails} = require('./../utils/functions/getHandlers');
 const ytdl = require('ytdl-core-discord');
 
 module.exports = {

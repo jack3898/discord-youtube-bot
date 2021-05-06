@@ -1,4 +1,4 @@
-const findYtUrl = require('../utils/functions/findYtUrl');
+const {findYtUrl} = require('./../utils/functions/getHandlers');
 
 module.exports = {
 	name: 'geturl',

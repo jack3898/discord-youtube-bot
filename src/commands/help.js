@@ -1,5 +1,4 @@
-const getFileList = require('./../utils/functions/getFileList');
-const getModuleCollection = require('./../utils/functions/getModuleCollection');
+const {getFileList, getModuleCollection} = require('./../utils/functions/getHandlers');
 const paginate = require('./../utils/functions/paginate');
 const {MessageEmbed} = require('discord.js');
 

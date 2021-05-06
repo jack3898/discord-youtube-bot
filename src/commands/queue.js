@@ -1,6 +1,6 @@
 const {MessageEmbed} = require('discord.js');
-const getPlayer = require('./../utils/functions/getPlayer');
-const getVideoDetails = require('./../utils/functions/getVideoDetails');
+const {getVideoDetails} = require('./../utils/functions/getHandlers');
+const {getPlayer} = require('./../utils/classes/Player');
 
 module.exports = {
 	name: 'queue',

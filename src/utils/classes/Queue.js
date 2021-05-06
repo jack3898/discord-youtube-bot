@@ -1,10 +1,9 @@
 // Redis database & cache
 const redisModule = require('redis');
 const redis = redisModule.createClient(config.redis_port);
-const findYtUrl = require('./../functions/findYtUrl');
-const getVideoDetails = require('./../functions/getVideoDetails');
 const ytdl = require('ytdl-core-discord');
 const {promisify} = require('util');
+const {findYtUrl, getVideoDetails} = require('./../functions/getHandlers');
 
 // Redis promisified
 const redisRpush = promisify(redis.rpush).bind(redis);
