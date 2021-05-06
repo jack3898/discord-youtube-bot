@@ -53,7 +53,8 @@ Before I start, take what I say in this section with a pinch of salt. These feat
 
 1. I would like to add support for "sharding". I want to add this so that if someone really wants to take this bot and spread the load across a dozen servers, they can. This will take a lot of work to implement and I am not yet sure how this will work with Redis. This is essential if you want the bot to be a part of over 2500 servers.
 2. Create a web-app interface for admins to manage the bot. This will allow an admin to see all queues of all servers, see how many sharded servers are online, manage permissions, blacklist users globally from using the bot, analytics, etc. Again, this is a massive task but something I may want to try!
-3. And just to continue extending and adding features to the bot. This is the #1 priority at the moment. The other two may only happen if this bot picks up pace and I maybe get sponsored. Because I am only a lone coder!
+3. If the bot has much interest from others, I may host the bot myself as an optional route for people to take if they do not have the technical knowhow to set it up themselves.
+4. And just to continue extending and adding features to the bot. This is the #1 priority at the moment. The other three may only happen if this bot picks up pace and I maybe get sponsored. Because I am only a lone coder!
 
 ## License
 
