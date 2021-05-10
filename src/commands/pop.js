@@ -1,11 +1,11 @@
-const {getPlayer} = require('./../utils/classes/Player');
+import Player from './../utils/classes/Player.js';
 
-module.exports = {
+export default {
 	name: 'pop',
 	description: __.pop(config.prefix),
 	action: async (bot, msg) => {
 		try {
-			const queue = getPlayer(msg.guild, bot);
+			const queue = Player.getPlayer(msg.guild, bot);
 			const result = await queue.pop();
 			const length = await queue.length();
 

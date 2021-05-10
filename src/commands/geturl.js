@@ -1,6 +1,6 @@
-const {findYtUrl} = require('./../utils/functions/getHandlers');
+import {findYtUrl} from './../utils/functions/getHandlers.js';
 
-module.exports = {
+export default {
 	name: 'geturl',
 	description: __.geturl(config.prefix),
 	action: async (bot, msg, command) => {

@@ -1,12 +1,13 @@
-const Discord = require('discord.js');
-const {URL} = require('url');
+import config from './../../../config.js';
+import Discord from 'discord.js';
+import {URL} from 'url';
+import fs from 'fs';
+import ytdl from 'ytdl-core-discord';
+import redisModule from 'redis';
+import {youtube} from '@googleapis/youtube';
+import {promisify} from 'util';
 
-const fs = require('fs');
-const ytdl = require('ytdl-core-discord');
-const redisModule = require('redis');
 const redis = redisModule.createClient(config.redis_port);
-const {youtube} = require('@googleapis/youtube');
-const {promisify} = require('util');
 
 /**
  * THIS GET HANDLER FILE PROVIDES MULTIPLE INDEPENDENT UTILITY FUNCTIONS FOR RETRIEVING DATA.
@@ -18,10 +19,10 @@ const {promisify} = require('util');
  * @param {string | Array.<string>} [fileTypes=['.js']] A (list of) filetype(s) that should be included in the search
  * @returns {Array.<string>} A list of files
  */
-function getFileList(directory, fileTypes = ['.js']) {
+export function getFileList(directory, fileTypes = ['.js']) {
 	try {
 		if (!directory || typeof directory !== 'string') return [];
-		const fileList = fs.readdirSync(`${srcPath}/${directory}`).filter(file => file.endsWith(fileTypes));
+		const fileList = fs.readdirSync(`${config.src}/${directory}`).filter(file => file.endsWith(fileTypes));
 		return fileList;
 	} catch (error) {
 		console.log(error);
@@ -33,15 +34,18 @@ function getFileList(directory, fileTypes = ['.js']) {
  * Take a directory, and a list of file names and create a Discord Collection of modules. Useful for commands.
  * @param {Array} filenames Including extension.
  * @param {string} directory Relative to source folder.
- * @returns {Discord.Collection}
+ * @returns {Promise<Discord.Collection>}
  */
-function getModuleCollection(filenames, directory) {
+export async function getModuleCollection(filenames, directory) {
 	if (filenames.length) {
-		const moduleList = filenames.map(filename => {
-			const executable = require(`${srcPath}/${directory}/${filename}`);
-			if (executable.name && executable.action) return [executable.name, {action: executable.action, description: executable?.description}];
+		const moduleList = filenames.map(filename => import(`${config.src}/${directory}/${filename}`));
+		const resolvedModules = await Promise.all(moduleList);
+		const ready = resolvedModules.map(module => {
+			const {name, action, description = ''} = module.default;
+			if (name && action) return [name, {action, description}];
 		});
-		return new Discord.Collection(moduleList);
+
+		return new Discord.Collection(ready);
 	}
 }
 
@@ -50,7 +54,7 @@ function getModuleCollection(filenames, directory) {
  * @param {*} percentage
  * @returns {integer} value between 0 and 100
  */
-function getPercentage(percentage) {
+export function getPercentage(percentage) {
 	// Remove any characters that are not a number and convert it to an integer.
 	const volumeInt = parseInt(percentage.replace(/[^0-9]+/g, ''));
 
@@ -66,7 +70,7 @@ function getPercentage(percentage) {
  * @param {integer} maxResults How many YouTube videos to fetch from the playlist
  * @returns {Array} A simple list of video URLs from the playlist
  */
-function getPlaylist(url, maxResults = config.youtube_playlist_max_results) {
+export function getPlaylist(url, maxResults = config.youtube_playlist_max_results) {
 	return new Promise(async (resolve, reject) => {
 		try {
 			const yt = youtube({
@@ -114,7 +118,7 @@ function getPlaylist(url, maxResults = config.youtube_playlist_max_results) {
  * @param {string} url
  * @returns {Promise<Object|Boolean>} Object for success, false for failed
  */
-function getVideoDetails(url) {
+export function getVideoDetails(url) {
 	return new Promise(async (resolve, reject) => {
 		try {
 			// This function is only useful when a YouTube URL is provided so we check for that.
@@ -157,7 +161,7 @@ function getVideoDetails(url) {
  * @param {Boolean} [resultCount=config.paginate_max_results] Return many results. If not set, the limit in the config will be used.
  * @returns {Array|Boolean} The URL(s) or if an error occurred, false
  */
-async function findYtUrl(search, resultCount = config.paginate_max_results) {
+export async function findYtUrl(search, resultCount = config.paginate_max_results) {
 	return new Promise(async (resolve, reject) => {
 		try {
 			const yt = youtube({
@@ -190,10 +194,3 @@ async function findYtUrl(search, resultCount = config.paginate_max_results) {
 		}
 	});
 }
-
-exports.getVideoDetails = getVideoDetails;
-exports.getPlaylist = getPlaylist;
-exports.getPercentage = getPercentage;
-exports.getModuleCollection = getModuleCollection;
-exports.getFileList = getFileList;
-exports.findYtUrl = findYtUrl;

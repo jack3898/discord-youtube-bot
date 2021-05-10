@@ -1,10 +1,11 @@
-const Discord = require('discord.js');
-const Queue = require('./Queue');
-const redisModule = require('redis');
+import Discord from 'discord.js';
+import Queue from './Queue.js';
+import redisModule from 'redis';
+import ytdl from 'ytdl-core-discord';
+import {getPercentage} from './../functions/getHandlers.js';
+import {promisify} from 'util';
+
 const redis = redisModule.createClient(config.redis_port);
-const ytdl = require('ytdl-core-discord');
-const {getPercentage} = require('./../functions/getHandlers');
-const {promisify} = require('util');
 
 // Redis promisified
 const redisGet = promisify(redis.get).bind(redis);
@@ -34,7 +35,7 @@ class Player extends Queue {
 		const player = bot.players.get(guild.id);
 		if (player instanceof this) return player;
 
-		bot.players.set(guild.id, new Player(guild, bot));
+		bot.players.set(guild.id, new this(guild, bot));
 		return bot.players.get(guild.id);
 	};
 
@@ -177,4 +178,4 @@ class Player extends Queue {
 	};
 }
 
-module.exports = Player;
+export default Player;

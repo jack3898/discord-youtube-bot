@@ -1,11 +1,11 @@
-const {getPlayer} = require('./../utils/classes/Player');
+import Player from './../utils/classes/Player.js';
 
-module.exports = {
+export default {
 	name: 'clear',
 	description: __.clear(config.prefix),
 	action: async (bot, msg, command) => {
 		try {
-			const queue = getPlayer(msg.guild, bot);
+			const queue = Player.getPlayer(msg.guild, bot);
 
 			const result = await queue.clear(command.combined);
 			if (result) msg.channel.send(__.clearedqueue());

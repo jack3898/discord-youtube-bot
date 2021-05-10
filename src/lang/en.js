@@ -2,7 +2,7 @@
  * English language pack for this bot. Create a copy for your language!
  */
 
-const language = {
+export default {
 	// Settings
 	numberFormat: 'en-US',
 
@@ -62,4 +62,3 @@ const language = {
 	resume: prefix => `Resume playback from a paused bot with \`${prefix}resume\`.`,
 	remove: prefix => `Remove an item from the queue with the queue item number with \`${prefix}remove\`. You can use \`${prefix}queue\` to get a list of numbers.`
 };
-module.exports = language;

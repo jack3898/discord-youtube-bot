@@ -1,9 +1,10 @@
 // Redis database & cache
-const redisModule = require('redis');
+import redisModule from 'redis';
+import ytdl from 'ytdl-core-discord';
+import {promisify} from 'util';
+import {findYtUrl, getVideoDetails} from './../functions/getHandlers.js';
+
 const redis = redisModule.createClient(config.redis_port);
-const ytdl = require('ytdl-core-discord');
-const {promisify} = require('util');
-const {findYtUrl, getVideoDetails} = require('./../functions/getHandlers');
 
 // Redis promisified
 const redisRpush = promisify(redis.rpush).bind(redis);
@@ -19,7 +20,7 @@ const redisDel = promisify(redis.del).bind(redis);
 /**
  * This queue system manages a queue from a Redis database.
  */
-class Queue {
+export default class Queue {
 	constructor(guild) {
 		this.guild = guild;
 		this.queueIdentifier = `${config.redis_namespace}:${this.guild.id}:queue`;
@@ -146,5 +147,3 @@ class Queue {
 		return true;
 	};
 }
-
-module.exports = Queue;

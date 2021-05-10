@@ -1,6 +1,6 @@
-const Discord = require('discord.js');
+import Discord from 'discord.js';
 
-class CommandProcessor {
+export default class CommandProcessor {
 	constructor(msg) {
 		if (!msg instanceof Discord.Message) throw TypeError('Argument 1 is not of instance Message!');
 
@@ -52,5 +52,3 @@ class CommandProcessor {
 		return argMap.has(arg);
 	}
 }
-
-module.exports = CommandProcessor;

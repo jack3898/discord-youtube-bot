@@ -1,11 +1,11 @@
-const {getPlayer} = require('./../utils/classes/Player');
+import Player from './../utils/classes/Player.js';
 
-module.exports = {
+export default {
 	name: 'volume',
 	description: __.volume(config.prefix),
 	action: async (bot, msg, command) => {
 		try {
-			const player = getPlayer(msg.guild, bot);
+			const player = Player.getPlayer(msg.guild, bot);
 
 			// If the user did not specify a volume value, it is assumed they just want to know the current volume
 			if (!command.args.length) {

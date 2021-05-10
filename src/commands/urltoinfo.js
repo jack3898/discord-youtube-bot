@@ -1,7 +1,7 @@
-const {getVideoDetails} = require('./../utils/functions/getHandlers');
-const ytdl = require('ytdl-core-discord');
+import {getVideoDetails} from './../utils/functions/getHandlers.js';
+import ytdl from 'ytdl-core-discord';
 
-module.exports = {
+export default {
 	name: 'urltoinfo',
 	description: __.urltoinfo(config.prefix),
 	action: async (bot, msg, command) => {

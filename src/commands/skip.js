@@ -1,11 +1,11 @@
-const {getPlayer} = require('./../utils/classes/Player');
+import Player from './../utils/classes/Player.js';
 
-module.exports = {
+export default {
 	name: 'skip',
 	description: __.skip(config.prefix),
 	action: async (bot, msg, command) => {
 		try {
-			const player = getPlayer(msg.guild, bot);
+			const player = Player.getPlayer(msg.guild, bot);
 			const playing = player.playing();
 			const moveIndex = command.args[0];
 

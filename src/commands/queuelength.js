@@ -1,11 +1,11 @@
-const {getPlayer} = require('./../utils/classes/Player');
+import Player from './../utils/classes/Player.js';
 
-module.exports = {
+export default {
 	name: 'queuelength',
 	description: __.queuelength(config.prefix),
 	action: async (bot, msg) => {
 		try {
-			const queue = getPlayer(msg.guild, bot);
+			const queue = Player.getPlayer(msg.guild, bot);
 			const length = await queue.length();
 
 			if (length) msg.channel.send(__.totalqueuelength(length));

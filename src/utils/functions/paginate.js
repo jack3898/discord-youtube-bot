@@ -5,7 +5,7 @@
  * @param {integer} pageSize Default 10. How large that page is. The bigger this number, the less pages there are.
  * @returns {object} The page, and some additional information
  */
-function paginate(array, page = 1, pageSize = 10) {
+export default function paginate(array, page = 1, pageSize = 10) {
 	if (!array instanceof Array) throw TypeError("The first argument provided 'array' is not an instance of Array");
 
 	const validatedPage = parseInt(page) - 1;
@@ -31,5 +31,3 @@ function paginate(array, page = 1, pageSize = 10) {
 
 	return result;
 }
-
-module.exports = paginate;

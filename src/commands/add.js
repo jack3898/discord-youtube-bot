@@ -1,11 +1,11 @@
-const {getPlayer} = require('./../utils/classes/Player');
+import Player from './../utils/classes/Player.js';
 
-module.exports = {
+export default {
 	name: 'add',
 	description: __.add(config.prefix),
 	action: async (bot, msg, command) => {
 		try {
-			const queue = getPlayer(msg.guild, bot);
+			const queue = Player.getPlayer(msg.guild, bot);
 			const video = await queue.add(command.combined);
 
 			if (video) msg.channel.send(__.addedtoqueue(video.videoDetails.title));

@@ -1,18 +1,19 @@
 // Some cheeky global values
-global.config = require('./../config.json');
-global.srcPath = __dirname;
-global.__ = require(`./lang/${config.language}`);
+import {Client} from 'discord.js';
+import conf from './../config.js';
+import lang from './lang/en.js';
+import redisModule from 'redis';
 
-// Discord API library
-const {Client} = require('discord.js');
+global.config = conf;
+global.__ = lang;
+
 const bot = new Client();
 
 // Redis database & cache library
-const redisModule = require('redis');
 const redis = redisModule.createClient(config.redis_port);
 
 // Init functions
-const {onRedisReady, onRedisError, onBotReady, onMessage} = require('./utils/functions/eventHandlers');
+import {onRedisReady, onRedisError, onBotReady, onMessage} from './utils/functions/eventHandlers.js';
 
 // Wait for Redis to run
 redis.on('ready', () => onRedisReady(bot, redis));

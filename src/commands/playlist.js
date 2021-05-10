@@ -1,13 +1,13 @@
-const {getPlaylist} = require('./../utils/functions/getHandlers');
-const {getPlayer} = require('./../utils/classes/Player');
+import {getPlaylist} from './../utils/functions/getHandlers.js';
+import Player from './../utils/classes/Player.js';
 
-module.exports = {
+export default {
 	name: 'playlist',
 	description: __.playlist(config.prefix),
 	action: async (bot, msg, command) => {
 		try {
 			const result = await getPlaylist(command.args[0]);
-			const queue = await getPlayer(msg.guild, bot);
+			const queue = await Player.getPlayer(msg.guild, bot);
 			const addedUrls = result.map(queue.add);
 
 			await Promise.all(addedUrls);

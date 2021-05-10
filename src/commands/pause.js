@@ -1,11 +1,11 @@
-const {getPlayer} = require('./../utils/classes/Player');
+import Player from './../utils/classes/Player.js';
 
-module.exports = {
+export default {
 	name: 'pause',
 	description: __.pause(config.prefix),
 	action: async (bot, msg, command) => {
 		try {
-			const player = getPlayer(msg.guild, bot);
+			const player = Player.getPlayer(msg.guild, bot);
 			const minutes = command.args[0] || false;
 
 			const result = await player.pause(minutes);

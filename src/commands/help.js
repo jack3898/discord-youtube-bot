@@ -1,14 +1,14 @@
-const {getFileList, getModuleCollection} = require('./../utils/functions/getHandlers');
-const paginate = require('./../utils/functions/paginate');
-const {MessageEmbed} = require('discord.js');
+import {getFileList, getModuleCollection} from './../utils/functions/getHandlers.js';
+import paginate from './../utils/functions/paginate.js';
+import {MessageEmbed} from 'discord.js';
 
-module.exports = {
+export default {
 	name: 'help',
 	description: __.help(config.prefix),
 	action: async (bot, msg, command) => {
 		try {
 			const commandModules = getFileList('commands');
-			const collection = Array.from(getModuleCollection(commandModules, 'commands'));
+			const collection = Array.from(await getModuleCollection(commandModules, 'commands'));
 
 			const page = command.args[0] || 1; // Arrays start from index 0, so this will stop users from accessing page 1 with 0
 			const perPage = 10;

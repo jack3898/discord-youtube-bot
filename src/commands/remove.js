@@ -1,11 +1,11 @@
-const {getPlayer} = require('./../utils/classes/Player');
+import Player from './../utils/classes/Player.js';
 
-module.exports = {
+export default {
 	name: 'remove',
 	description: __.remove(config.prefix),
 	action: async (bot, msg, command) => {
 		try {
-			const queue = getPlayer(msg.guild, bot);
+			const queue = Player.getPlayer(msg.guild, bot);
 			const queueItem = parseInt(command.args[0]);
 
 			if (!Number.isNaN(queueItem)) {
