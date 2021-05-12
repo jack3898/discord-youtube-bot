@@ -70,14 +70,15 @@ class Player extends Queue {
 				this.bitstream = await ytdl(item);
 				this.currentVolume = (await this.getVolume()) / 100;
 				this.dispatcher = await this.connection.play(this.bitstream, {type: 'opus', volume: this.currentVolume});
+
 				this.dispatcher.on('finish', async () => {
 					await this.shift();
 					resolve(true);
 				});
 			} catch (error) {
 				console.error(error);
-				await this.shift();
-				reject(error);
+				await this.skip();
+				resolve(true);
 			}
 		});
 	};

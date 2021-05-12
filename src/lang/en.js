@@ -19,6 +19,9 @@ export default {
 	searchitemtitle: (index, title) => `${index}) ${title}`,
 	queueitemdesc: (views, likes, dislikes) => `\`${views}\` views, \`${likes}\` likes, and \`${dislikes}\` dislikes.`,
 	searchitemdesc: author => `By ${author}`,
+	queueitemtitleunavailable: () => `Not Available`,
+	queueitemauthorunavailable: () => `Unknown Author`,
+	fetchingqueue: () => `Fetching the queue. Please wait...`,
 	emptyqueue: () => `The queue is empty.`,
 	totalqueuelength: length => `The queue has ${length} item(s) in it.`,
 	clearedqueue: () => `Cleared entire queue!`,
@@ -30,6 +33,7 @@ export default {
 	skipfail: () => `Could not skip. I am not playing any music!`,
 	invalidpage: () => `That is not a valid page!`,
 	emptypage: () => `This page is empty.`,
+	searching: () => `Please wait, fetching some search results...`,
 	searchtitle: () => `Which video would you like to add to the queue?`,
 	unabletopause: () => `Could not pause. Is something playing?`,
 	pausedfortime: minutes => `Paused for ${minutes} minute(s)!`,
@@ -38,6 +42,7 @@ export default {
 	resumed: () => `Resumed!`,
 	removed: () => `Removed from the queue!`,
 	noremovalnumber: () => `Specify the queue item number you want to remove.`,
+	importingplaylist: () => `Fetching the playlist and converting it to a queue. Please wait...`,
 
 	// Help command help messages
 	helptitle: (page, pageCount) => `Help - page ${page} / ${pageCount}`,

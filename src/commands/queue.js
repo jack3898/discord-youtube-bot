@@ -24,6 +24,8 @@ export default {
 				return url;
 			});
 
+			const statusMsg = await msg.channel.send(__.fetchingqueue());
+
 			// Wait for all promises to fulfill
 			const resolvedVideos = await Promise.all(videos);
 			const numberFormat = new Intl.NumberFormat(__.numberFormat);
@@ -32,9 +34,12 @@ export default {
 				const views = numberFormat.format(video.viewCount);
 				const likes = numberFormat.format(video.likes);
 				const dislikes = numberFormat.format(video.dislikes);
+				const userIndex = index + result.startsFrom + 1;
+				const title = video.title || __.queueitemtitleunavailable();
+				const author = video.author?.name || __.queueitemauthorunavailable();
 
 				return {
-					name: __.queueitemtitle(index + result.startsFrom + 1, video.title, video.author.name),
+					name: __.queueitemtitle(userIndex, title, author),
 					value: __.queueitemdesc(views, likes, dislikes)
 				};
 			});
@@ -46,7 +51,7 @@ export default {
 				.addFields(...embedFields);
 
 			// Construct the list!
-
+			await statusMsg.delete();
 			msg.channel.send(reply);
 		} catch (error) {
 			console.error(error);

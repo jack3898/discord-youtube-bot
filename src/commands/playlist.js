@@ -10,7 +10,11 @@ export default {
 			const queue = await Player.getPlayer(msg.guild, bot);
 			const addedUrls = result.map(queue.add);
 
-			await Promise.all(addedUrls);
+			const initialMsg = await msg.channel.send(__.importingplaylist());
+
+			await Promise.allSettled(addedUrls);
+
+			if (initialMsg.deletable) initialMsg.delete();
 
 			msg.channel.send(__.playlistinqueue());
 		} catch (error) {

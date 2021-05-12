@@ -12,6 +12,9 @@ export default {
 			// These are the reactions that will be reacted to the bot's message
 			const reacts = config.search_reaction_options;
 
+			// Send a status message to inform the user the search is taking place
+			const statusMsg = await msg.channel.send(__.searching());
+
 			// Resolved URLs from the YouTube API
 			const urls = await findYtUrl(command.combined, reacts.length);
 
@@ -33,6 +36,8 @@ export default {
 					.setColor(config.success_colour)
 					.addFields(...fields)
 			);
+
+			await statusMsg.delete();
 
 			// This makes the bot react to its own message with the given emojis defined in reacts
 			// Promise.all is used so that any errors in this process get properly caught
