@@ -1,5 +1,7 @@
+import path from 'path';
+
 export default {
-	src: '/home/jack/discord-youtube-bot/src',
+	src: path.resolve() + '/src',
 	prefix: '!',
 	language: 'en',
 	redis_port: 6379,
