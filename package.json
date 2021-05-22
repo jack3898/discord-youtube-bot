@@ -5,7 +5,7 @@
 	"main": "src/index.js",
 	"type": "module",
 	"scripts": {
-		"bot": "nodemon src/index"
+		"bot": "nodemon dist/index"
 	},
 	"repository": {
 		"type": "git",
@@ -28,6 +28,7 @@
 		"axios": "^0.21.1",
 		"discord.js": "^12.5.3",
 		"redis": "^3.1.2",
+		"typescript": "^4.2.4",
 		"ytdl-core": "^4.7.0",
 		"ytdl-core-discord": "^1.3.0"
 	},
