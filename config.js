@@ -1,7 +1,7 @@
 import path from 'path';
 
 export default {
-	src: path.resolve() + '/src',
+	src: path.resolve() + '/bot',
 	filePrefix: process.platform === "win32" ? 'file://' : '',
 	prefix: '!',
 	language: 'en',

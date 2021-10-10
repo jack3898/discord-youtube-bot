@@ -5,7 +5,7 @@
 	"main": "src/index.js",
 	"type": "module",
 	"scripts": {
-		"bot": "nodemon src/index"
+		"bot": "nodemon bot/index"
 	},
 	"repository": {
 		"type": "git",
