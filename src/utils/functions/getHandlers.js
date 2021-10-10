@@ -177,7 +177,7 @@ export async function findYtUrl(search, resultCount = config.paginate_max_result
 
 			await yt.search.list(params, (err, data) => {
 				if (err) {
-					reject(error);
+					reject(err);
 					return;
 				}
 
