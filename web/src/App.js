@@ -18,7 +18,7 @@ function App() {
 
   return (
     <div className="App">
-      <MenuNavbar />
+      <MenuNavbar socket={socket}/>
     </div>
   );
 }
