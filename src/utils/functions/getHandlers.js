@@ -38,7 +38,7 @@ export function getFileList(directory, fileTypes = ['.js']) {
  */
 export async function getModuleCollection(filenames, directory) {
 	if (filenames.length) {
-		const moduleList = filenames.map(filename => import(`${config.src}/${directory}/${filename}`));
+		const moduleList = filenames.map(filename => import(`${config.filePrefix}${config.src}/${directory}/${filename}`));
 		const resolvedModules = await Promise.all(moduleList);
 		const ready = resolvedModules.map(module => {
 			const {name, action, description = ''} = module.default;
@@ -177,7 +177,7 @@ export async function findYtUrl(search, resultCount = config.paginate_max_result
 
 			await yt.search.list(params, (err, data) => {
 				if (err) {
-					reject(error);
+					reject(err);
 					return;
 				}
 
