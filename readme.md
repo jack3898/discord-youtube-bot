@@ -41,9 +41,11 @@ Discord.js is the library that powers the communication to Discord's bot API. Th
 2. You will need two API tokens in your system's environment variables:
    1. `DISCORD_TOKEN` - Which you can find at https://discord.com/developers
    2. `GOOGLE_API_TOKEN` - Which you can create in the Google Cloud platform.
+      1. You also need to enable **YouTube Data API v3** on Google Cloud platform.
 
-5. Start Redis as a service `sudo service redis-server start`.
-6. At the root of the project folder, type `npm run bot`.
+3. Start Redis as a service `sudo service redis-server start`.
+   1. Alternatively, run can run Redis on a Docker Compose on background with `docker-compose up --detach`.
+4. At the root of the project folder, type `npm run bot`.
 
 ## Plans
 
