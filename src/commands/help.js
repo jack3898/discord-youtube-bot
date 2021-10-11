@@ -1,6 +1,6 @@
-import {getFileList, getModuleCollection} from './../utils/functions/getHandlers.js';
+import { MessageEmbed } from 'discord.js';
+import { getFileList, getModuleCollection } from './../utils/functions/getHandlers.js';
 import paginate from './../utils/functions/paginate.js';
-import {MessageEmbed} from 'discord.js';
 
 export default {
 	name: 'help',
@@ -15,7 +15,7 @@ export default {
 
 			const paginatedArr = paginate(collection, page, perPage);
 			const pageCount = paginatedArr.pageCount;
-			const embedFields = paginatedArr.page.map(item => ({name: `${config.prefix}${item[0]}`, value: item[1].description}));
+			const embedFields = paginatedArr.page.map(item => ({ name: `${config.prefix}${item[0]}`, value: item[1].description }));
 
 			if (!paginatedArr.page.length) {
 				msg.channel.send(__.emptypage());

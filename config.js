@@ -2,9 +2,10 @@ import path from 'path';
 
 export default {
 	src: path.resolve() + '/src',
-	filePrefix: process.platform === "win32" ? 'file://' : '',
+	filePrefix: process.platform === 'win32' ? 'file://' : '',
 	prefix: '!',
 	language: 'en',
+	redis_host: 'redis',
 	redis_port: 6379,
 	redis_namespace: 'ytbot',
 	redis_flush_on_start: false,

@@ -1,6 +1,6 @@
-import {MessageEmbed} from 'discord.js';
-import {getVideoDetails} from './../utils/functions/getHandlers.js';
+import { MessageEmbed } from 'discord.js';
 import Player from './../utils/classes/Player.js';
+import { getVideoDetails } from './../utils/functions/getHandlers.js';
 
 export default {
 	name: 'queue',

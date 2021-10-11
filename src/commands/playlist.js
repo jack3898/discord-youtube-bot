@@ -1,5 +1,5 @@
-import {getPlaylist} from './../utils/functions/getHandlers.js';
 import Player from './../utils/classes/Player.js';
+import { getPlaylist } from './../utils/functions/getHandlers.js';
 
 export default {
 	name: 'playlist',

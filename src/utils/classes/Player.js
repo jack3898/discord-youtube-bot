@@ -1,11 +1,11 @@
 import Discord from 'discord.js';
-import Queue from './Queue.js';
 import redisModule from 'redis';
+import { promisify } from 'util';
 import ytdl from 'ytdl-core-discord';
-import {getPercentage} from './../functions/getHandlers.js';
-import {promisify} from 'util';
+import { getPercentage } from './../functions/getHandlers.js';
+import Queue from './Queue.js';
 
-const redis = redisModule.createClient(config.redis_port);
+const redis = redisModule.createClient(config.redis_port, config.redis_host);
 
 // Redis promisified
 const redisGet = promisify(redis.get).bind(redis);
@@ -57,7 +57,7 @@ class Player extends Queue {
 	stream = () => {
 		return new Promise(async (resolve, reject) => {
 			try {
-				const {queue} = await this.get(1, 1);
+				const { queue } = await this.get(1, 1);
 				const item = queue[0];
 
 				if (!item) {
@@ -69,7 +69,7 @@ class Player extends Queue {
 
 				this.bitstream = await ytdl(item);
 				this.currentVolume = (await this.getVolume()) / 100;
-				this.dispatcher = await this.connection.play(this.bitstream, {type: 'opus', volume: this.currentVolume});
+				this.dispatcher = await this.connection.play(this.bitstream, { type: 'opus', volume: this.currentVolume });
 
 				this.dispatcher.on('finish', async () => {
 					await this.shift();

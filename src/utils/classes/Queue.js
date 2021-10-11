@@ -1,10 +1,10 @@
 // Redis database & cache
 import redisModule from 'redis';
+import { promisify } from 'util';
 import ytdl from 'ytdl-core-discord';
-import {promisify} from 'util';
-import {findYtUrl, getVideoDetails} from './../functions/getHandlers.js';
+import { findYtUrl, getVideoDetails } from './../functions/getHandlers.js';
 
-const redis = redisModule.createClient(config.redis_port);
+const redis = redisModule.createClient(config.redis_port, config.redis_host);
 
 // Redis promisified
 const redisRpush = promisify(redis.rpush).bind(redis);

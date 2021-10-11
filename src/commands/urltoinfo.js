@@ -1,5 +1,5 @@
-import {getVideoDetails} from './../utils/functions/getHandlers.js';
 import ytdl from 'ytdl-core-discord';
+import { getVideoDetails } from './../utils/functions/getHandlers.js';
 
 export default {
 	name: 'urltoinfo',

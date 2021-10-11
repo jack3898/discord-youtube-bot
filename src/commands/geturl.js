@@ -1,4 +1,4 @@
-import {findYtUrl} from './../utils/functions/getHandlers.js';
+import { findYtUrl } from './../utils/functions/getHandlers.js';
 
 export default {
 	name: 'geturl',

@@ -1,13 +1,13 @@
-import config from './../../../config.js';
+import { youtube } from '@googleapis/youtube';
 import Discord from 'discord.js';
-import {URL} from 'url';
 import fs from 'fs';
-import ytdl from 'ytdl-core-discord';
 import redisModule from 'redis';
-import {youtube} from '@googleapis/youtube';
-import {promisify} from 'util';
+import { URL } from 'url';
+import { promisify } from 'util';
+import ytdl from 'ytdl-core-discord';
+import config from './../../../config.js';
 
-const redis = redisModule.createClient(config.redis_port);
+const redis = redisModule.createClient(config.redis_port, config.redis_host);
 
 /**
  * THIS GET HANDLER FILE PROVIDES MULTIPLE INDEPENDENT UTILITY FUNCTIONS FOR RETRIEVING DATA.
@@ -41,8 +41,8 @@ export async function getModuleCollection(filenames, directory) {
 		const moduleList = filenames.map(filename => import(`${config.filePrefix}${config.src}/${directory}/${filename}`));
 		const resolvedModules = await Promise.all(moduleList);
 		const ready = resolvedModules.map(module => {
-			const {name, action, description = ''} = module.default;
-			if (name && action) return [name, {action, description}];
+			const { name, action, description = '' } = module.default;
+			if (name && action) return [name, { action, description }];
 		});
 
 		return new Discord.Collection(ready);
@@ -80,7 +80,7 @@ export function getPlaylist(url, maxResults = config.youtube_playlist_max_result
 
 			// Extract the list parameter from the URL. This is the playlist id.
 			const parsedUrl = new URL(url);
-			const {list} = Object.fromEntries(parsedUrl.searchParams);
+			const { list } = Object.fromEntries(parsedUrl.searchParams);
 
 			if (!(parsedUrl.hostname === 'youtube.com' || parsedUrl.hostname === 'www.youtube.com') || !list) {
 				console.log(parsedUrl.hostname, list);
@@ -101,7 +101,7 @@ export function getPlaylist(url, maxResults = config.youtube_playlist_max_result
 				}
 
 				// Transform the results into a list of video urls!
-				const videos = data.data.items.map(({snippet}) => `https://www.youtube.com/watch?v=${snippet.resourceId.videoId}`);
+				const videos = data.data.items.map(({ snippet }) => `https://www.youtube.com/watch?v=${snippet.resourceId.videoId}`);
 
 				resolve(videos);
 			});
@@ -181,7 +181,7 @@ export async function findYtUrl(search, resultCount = config.paginate_max_result
 					return;
 				}
 
-				const urls = data.data.items.map(({id}) => `https://www.youtube.com/watch?v=${id.videoId}`);
+				const urls = data.data.items.map(({ id }) => `https://www.youtube.com/watch?v=${id.videoId}`);
 
 				resolve(urls);
 			});

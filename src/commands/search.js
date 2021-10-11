@@ -1,6 +1,6 @@
-import {MessageEmbed} from 'discord.js';
-import {getVideoDetails, findYtUrl} from './../utils/functions/getHandlers.js';
+import { MessageEmbed } from 'discord.js';
 import Player from './../utils/classes/Player.js';
+import { findYtUrl, getVideoDetails } from './../utils/functions/getHandlers.js';
 
 export default {
 	name: 'search',

@@ -1,6 +1,6 @@
-import {Collection} from 'discord.js';
+import { Collection } from 'discord.js';
 import CommandProcessor from './../classes/CommandProcessor.js';
-import {getFileList, getModuleCollection} from './getHandlers.js';
+import { getFileList, getModuleCollection } from './getHandlers.js';
 
 /**
  * THIS EVENT HANDLER FILE PROVIDES MULTIPLE INDEPENDENT UTILITY FUNCTIONS FOR HANDLING EVENTS

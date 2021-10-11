@@ -1,8 +1,13 @@
 // Some cheeky global values
-import {Client} from 'discord.js';
+import { Client } from 'discord.js';
+import { config as env } from 'dotenv';
+import redisModule from 'redis';
 import conf from './../config.js';
 import lang from './lang/en.js';
-import redisModule from 'redis';
+// Init functions
+import { onBotReady, onMessage, onRedisError, onRedisReady } from './utils/functions/eventHandlers.js';
+
+env();
 
 global.config = conf;
 global.__ = lang;
@@ -10,10 +15,7 @@ global.__ = lang;
 const bot = new Client();
 
 // Redis database & cache library
-const redis = redisModule.createClient(config.redis_port);
-
-// Init functions
-import {onRedisReady, onRedisError, onBotReady, onMessage} from './utils/functions/eventHandlers.js';
+const redis = redisModule.createClient(config.redis_port, config.redis_host);
 
 // Wait for Redis to run
 redis.on('ready', () => onRedisReady(bot, redis));
