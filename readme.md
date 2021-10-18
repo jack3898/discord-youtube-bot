@@ -5,6 +5,9 @@ Ah, but I enjoy making Discord bots and sharing my code. So, here it is.
 
 A lot of music bots are private and proprietary (and lock features behind a paywall), and whilst I am sure there are other open source music bots I aim to make this one the best.
 
+## NOTICE
+This bot will soon be outdated, and it would be preferred you view the new v2 project at https://github.com/jack3898/discord-youtube-bot-2. It uses Discord.js v13 and TypeScript. As of the 18th of October 2021, the v2 bot does not yet match the feature set of this bot but that will soon not be the case.
+
 ## Features
 | Command               | What it does                                                 |
 | --------------------- | ------------------------------------------------------------ |
